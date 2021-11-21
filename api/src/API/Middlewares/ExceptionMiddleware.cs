@@ -1,8 +1,4 @@
-﻿using Application.Core;
-using System.Net;
-using System.Text.Json;
-
-namespace API.Middlewares
+﻿namespace API.Middlewares
 {
     public class ExceptionMiddleware
     {

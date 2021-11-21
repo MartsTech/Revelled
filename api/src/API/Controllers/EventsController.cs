@@ -1,8 +1,4 @@
-﻿using Application.Events;
-using Domain;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
     public class EventsController : BaseApiController
     {

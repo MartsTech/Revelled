@@ -1,9 +1,4 @@
-﻿using API.DTOs;
-using API.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
     [AllowAnonymous]
     [ApiController]
@@ -52,7 +47,6 @@ namespace API.Controllers
             {
                 return BadRequest("UserName Taken");
             }
-
 
             var user = new AppUser
             {

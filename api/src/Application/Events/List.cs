@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Application.Events
+﻿namespace Application.Events
 {
     public class List
     {

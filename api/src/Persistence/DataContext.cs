@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace Persistence
+﻿namespace Persistence
 {
     public class DataContext : IdentityDbContext<AppUser>
     {

@@ -1,8 +1,4 @@
-﻿using Application.Core;
-using Application.Events;
-using MediatR;
-
-namespace API.Extensions
+﻿namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {

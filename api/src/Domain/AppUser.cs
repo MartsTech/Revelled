@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Domain
+﻿namespace Domain
 {
     public class AppUser : IdentityUser
     {
