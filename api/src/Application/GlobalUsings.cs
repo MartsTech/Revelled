@@ -1,4 +1,7 @@
 ﻿global using Application.Core;
+global using Application.Events;
+global using Application.Interfaces;
+global using AutoMapper.QueryableExtensions;
 global using AutoMapper;
 global using Domain;
 global using FluentValidation;

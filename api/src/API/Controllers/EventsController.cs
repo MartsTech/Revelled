@@ -20,6 +20,7 @@
             return HandleResult(await Mediator.Send(new Create.Command { Event = eventArgs }));
         }
 
+        [Authorize(Policy = "IsEventHost")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditEvent(Guid id, Event eventArgs)
         {
@@ -27,10 +28,17 @@
             return HandleResult(await Mediator.Send(new Edit.Command { Event = eventArgs }));
         }
 
+        [Authorize(Policy = "IsEventHost")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+        }
+
+        [HttpPost("{id}/attend")]
+        public async Task<IActionResult> Attend(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateAttendance.Command { Id = id }));
         }
     }
 }
