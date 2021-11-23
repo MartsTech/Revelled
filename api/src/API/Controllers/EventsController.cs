@@ -1,4 +1,6 @@
-﻿namespace API.Controllers
+﻿using Application.Events;
+
+namespace API.Controllers
 {
     public class EventsController : BaseApiController
     {

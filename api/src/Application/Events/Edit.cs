@@ -37,9 +37,9 @@
 
                 _mapper.Map(request.Event, eventArgs);
 
-                var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                if (!result)
+                if (!success)
                 {
                     return Result<Unit>.Failure("Failed to update event.");
                 }

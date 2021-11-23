@@ -1,17 +1,17 @@
-﻿namespace Application.Events
+﻿namespace Application.Profiles
 {
-    public class Create
+    public class Edit
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<Unit>> 
         {
-            public Event Event { get; set; }
+            public string DisplayName { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Event).SetValidator(new EventValidator());
+                RuleFor(x => x.DisplayName).NotEmpty();
             }
         }
 
@@ -22,31 +22,24 @@
 
             public Handler(DataContext context, IUserAccessor userAccessor)
             {
-                _context = context;
                 _userAccessor = userAccessor;
+                _context = context;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x =>
+                var user = await _context.Users.FirstOrDefaultAsync(x => 
                     x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
-                var attendee = new EventAttendee
-                {
-                    AppUser = user,
-                    Event = request.Event,
-                    IsHost = true
-                };
+                user.DisplayName = request.DisplayName ?? user.DisplayName;
 
-                request.Event.Attendees.Add(attendee);
-
-                _context.Events.Add(request.Event);
+                _context.Entry(user).State = EntityState.Modified;
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (!success)
                 {
-                    return Result<Unit>.Failure("Failed to create event.");
+                    return Result<Unit>.Failure("Problem updating profile.");
                 }
 
                 return Result<Unit>.Success(Unit.Value);

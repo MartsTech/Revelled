@@ -13,5 +13,9 @@
         [Required]
         [MaxLength(25, ErrorMessage = "Username lenght must be shorter that 25.")]
         public string Username { get; set; }
+
+        [Required]
+        [MaxLength(25, ErrorMessage = "DisplayName lenght must be shorter that 25.")]
+        public string DisplayName { get; set; }
     }
 }

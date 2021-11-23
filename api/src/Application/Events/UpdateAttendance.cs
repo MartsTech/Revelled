@@ -25,12 +25,18 @@
                     .ThenInclude(a => a.AppUser)
                     .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                if (eventArgs == null) return null;
+                if (eventArgs == null)
+                {
+                    return null;
+                }
 
                 var user = await _context.Users.FirstOrDefaultAsync(x =>
                     x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
-                if (user == null) return null;
+                if (user == null)
+                {
+                    return null;
+                }
 
                 var hostUsername = eventArgs.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser?.UserName;
 
@@ -55,9 +61,9 @@
                     eventArgs.Attendees.Add(attendance);
                 }
 
-                var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                if (!result)
+                if (!success)
                 {
                     return Result<Unit>.Failure("A problem occured while updating your attendace.");
                 }

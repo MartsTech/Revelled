@@ -8,6 +8,7 @@
 
         public DbSet<Event> Events { get; set; }
         public DbSet<EventAttendee> EventAttendees { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -19,7 +19,9 @@
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            var user = await _userManager.Users
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.Email == loginDto.Email);
 
             if (user == null)
             {
@@ -28,12 +30,12 @@
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return CreateUserDto(user);
+                return Unauthorized();
             }
 
-            return Unauthorized();
+            return CreateUserDto(user);
         }
 
         [HttpPost("register")]
@@ -54,32 +56,38 @@
             {
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
+                DisplayName = registerDto.DisplayName,
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return CreateUserDto(user);
+                return BadRequest("A problem occured during registration.");
             }
 
-            return BadRequest("A problem occured during registration.");
+            return CreateUserDto(user);
         }
 
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            return CreateUserDto(await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email)));
+            var user = await _userManager.Users
+                .Include(x => x.Photos)
+                .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
+
+            return CreateUserDto(user);
         }
 
         private UserDto CreateUserDto(AppUser user)
         {
             return new UserDto
             {
+                Token = _tokenService.CreateToken(user),
                 Username = user.UserName,
-                Image = null,
-                Token = _tokenService.CreateToken(user)
+                DisplayName = user.DisplayName,
+                Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
     }

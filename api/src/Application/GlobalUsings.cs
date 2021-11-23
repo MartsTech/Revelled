@@ -1,10 +1,12 @@
 ﻿global using Application.Core;
 global using Application.Events;
 global using Application.Interfaces;
+global using Application.Photos;
 global using AutoMapper.QueryableExtensions;
 global using AutoMapper;
 global using Domain;
 global using FluentValidation;
 global using MediatR;
+global using Microsoft.AspNetCore.Http;
 global using Microsoft.EntityFrameworkCore;
 global using Persistence;
