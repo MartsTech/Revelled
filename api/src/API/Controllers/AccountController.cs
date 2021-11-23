@@ -44,16 +44,16 @@
                 ModelState.AddModelError("email", "Email Taken");
                 return ValidationProblem();
             }
-            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.UserName))
+            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
             {
-                ModelState.AddModelError("userName", "UserName Taken");
+                ModelState.AddModelError("username", "Username Taken");
                 return ValidationProblem();
             }
 
             var user = new AppUser
             {
                 Email = registerDto.Email,
-                UserName = registerDto.UserName,
+                UserName = registerDto.Username,
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -77,7 +77,8 @@
         {
             return new UserDto
             {
-                UserName = user.UserName,
+                Username = user.UserName,
+                Image = null,
                 Token = _tokenService.CreateToken(user)
             };
         }

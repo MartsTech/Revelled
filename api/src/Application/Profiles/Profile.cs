@@ -2,6 +2,7 @@
 {
     public class Profile
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
+        public string Image { get; set; }
     }
 }

@@ -11,7 +11,7 @@
         public string Password { get; set; }
 
         [Required]
-        [MaxLength(25, ErrorMessage = "Name lenght must be shorter that 25.")]
-        public string UserName { get; set; }
+        [MaxLength(25, ErrorMessage = "Username lenght must be shorter that 25.")]
+        public string Username { get; set; }
     }
 }

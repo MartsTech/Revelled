@@ -386,3 +386,11 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# API
+appsettings.json
+
+# SQlite
+*.db
+*.db-shm
+*.db-wal

@@ -9,7 +9,7 @@
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string GetUserName()
+        public string GetUsername()
         {
             return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
         }

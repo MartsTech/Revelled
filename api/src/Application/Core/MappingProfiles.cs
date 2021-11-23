@@ -6,10 +6,10 @@
         {
             CreateMap<Event, Event>();
             CreateMap<Event, EventDto>()
-                .ForMember(d => d.HostUserName, o => o.MapFrom(e => e.Attendees
+                .ForMember(d => d.HostUsername, o => o.MapFrom(e => e.Attendees
                     .FirstOrDefault(a => a.IsHost).AppUser.UserName));
             CreateMap<EventAttendee, Profiles.Profile>()
-                .ForMember(p => p.UserName, o => o.MapFrom(a => a.AppUser.UserName));
+                .ForMember(p => p.Username, o => o.MapFrom(a => a.AppUser.UserName));
         }
     }
 }

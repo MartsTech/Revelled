@@ -28,19 +28,19 @@
                 if (eventArgs == null) return null;
 
                 var user = await _context.Users.FirstOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetUserName(), cancellationToken);
+                    x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
                 if (user == null) return null;
 
-                var hostUserName = eventArgs.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser?.UserName;
+                var hostUsername = eventArgs.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser?.UserName;
 
                 var attendance = eventArgs.Attendees.FirstOrDefault(x => x.AppUser.UserName == user.UserName);
 
-                if (attendance != null && hostUserName == user.UserName)
+                if (attendance != null && hostUsername == user.UserName)
                 {
                     eventArgs.IsCancelled = !eventArgs.IsCancelled;
                 }
-                else if (attendance != null && hostUserName != user.UserName)
+                else if (attendance != null && hostUsername != user.UserName)
                 {
                     eventArgs.Attendees.Remove(attendance);
                 }

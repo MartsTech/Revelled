@@ -7,7 +7,7 @@
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string HostUserName { get; set; }
+        public string HostUsername { get; set; }
         public bool IsCancelled { get; set; }
         public ICollection<EventAttendee> Attendees { get; set; } = new List<EventAttendee>();
     }

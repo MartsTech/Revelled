@@ -29,7 +29,7 @@
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetUserName(), cancellationToken);
+                    x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
                 var attendee = new EventAttendee
                 {
