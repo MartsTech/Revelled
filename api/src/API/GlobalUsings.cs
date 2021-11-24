@@ -6,6 +6,7 @@ global using API.SignalR;
 global using Application.Comments;
 global using Application.Core;
 global using Application.Events;
+global using Application.Follows;
 global using Application.Interfaces;
 global using Application.Photos;
 global using Application.Profiles;
