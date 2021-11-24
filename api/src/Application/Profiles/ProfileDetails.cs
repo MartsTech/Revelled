@@ -1,6 +1,6 @@
 ﻿namespace Application.Profiles
 {
-    public class Details
+    public class ProfileDetails
     {
         public class Query : IRequest<Result<Profile>>
         {

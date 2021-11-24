@@ -1,25 +1,23 @@
-﻿using Application.Photos;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
     public class PhotosController : BaseApiController
     {
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] Add.Command command)
+        public async Task<IActionResult> AddPhoto([FromForm] PhotoAdd.Command command)
         {
             return HandleResult(await Mediator.Send(command));
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeletePhoto(string id)
         {
-            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+            return HandleResult(await Mediator.Send(new PhotoDelete.Command { Id = id }));
         }
 
         [HttpPost("{id}/setMain")]
-        public async Task<IActionResult> SetMain(string id)
+        public async Task<IActionResult> SetMainPhoto(string id)
         {
-            return HandleResult(await Mediator.Send(new SetMain.Command { Id = id }));
+            return HandleResult(await Mediator.Send(new PhotoSetMain.Command { Id = id }));
         }
     }
 }

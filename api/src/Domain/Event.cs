@@ -9,5 +9,6 @@
         public DateTime EndDate { get; set; }
         public bool IsCancelled { get; set; }
         public ICollection<EventAttendee> Attendees { get; set; } = new List<EventAttendee>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class AttendeeDto
+    public class EventAttendeeDto
     {
         public string Username { get; set; }
         public string DisplayName { get; set; }

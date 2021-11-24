@@ -1,6 +1,6 @@
 ﻿namespace Application.Profiles
 {
-    public class Edit
+    public class ProfileEdit
     {
         public class Command : IRequest<Result<Unit>> 
         {

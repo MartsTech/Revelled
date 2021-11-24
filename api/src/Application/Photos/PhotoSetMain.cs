@@ -1,6 +1,6 @@
 ﻿namespace Application.Photos
 {
-    public class Delete
+    public class PhotoSetMain
     {
         public class Command : IRequest<Result<Unit>>
         {
@@ -10,20 +10,18 @@
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
             private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IPhotoAccessor photoAccessor, IUserAccessor userAccessor)
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _userAccessor = userAccessor;
-                _photoAccessor = photoAccessor;
                 _context = context;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users
-                    .Include(x => x.Photos)
+                    .Include(p => p.Photos)
                     .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
                 if (user == null)
@@ -38,25 +36,20 @@
                     return null;
                 }
 
-                if (photo.IsMain)
+                var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+
+                if (currentMain != null)
                 {
-                    return Result<Unit>.Failure("You cannot delete your main photo.");
+                    currentMain.IsMain = false;
                 }
 
-                var result = await _photoAccessor.DeletePhoto(photo.Id);
-
-                if (result == null)
-                {
-                    return Result<Unit>.Failure("Problem deleting photo from Cloudinary.");
-                }
-
-                user.Photos.Remove(photo);
+                photo.IsMain = true;
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (!success)
                 {
-                    return Result<Unit>.Failure("Problem deleting photo from API.");
+                    return Result<Unit>.Failure("Problem setting main photo.");
                 }
                     
                 return Result<Unit>.Success(Unit.Value);

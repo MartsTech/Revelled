@@ -1,21 +1,21 @@
 ﻿namespace Infrastructure.Security
 {
-    public class IsHostRequirement : IAuthorizationRequirement
+    public class IsEventHostRequirement : IAuthorizationRequirement
     {
     }
 
-    public class IsHostRequirementHandler : AuthorizationHandler<IsHostRequirement>
+    public class IsEventHostRequirementHandler : AuthorizationHandler<IsEventHostRequirement>
     {
         private readonly DataContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public IsHostRequirementHandler(DataContext dbContext, IHttpContextAccessor httpContextAccessor)
+        public IsEventHostRequirementHandler(DataContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsEventHostRequirement requirement)
         {
             var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 

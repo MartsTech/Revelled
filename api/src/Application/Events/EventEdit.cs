@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class Edit
+    public class EventEdit
     {
         public class Command : IRequest<Result<Unit>>
         {

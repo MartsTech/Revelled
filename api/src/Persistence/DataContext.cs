@@ -9,6 +9,7 @@
         public DbSet<Event> Events { get; set; }
         public DbSet<EventAttendee> EventAttendees { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,6 +26,11 @@
                 .HasOne(a => a.Event)
                 .WithMany(e => e.Attendees)
                 .HasForeignKey(a => a.EventId);
+
+            builder.Entity<Comment>()
+                .HasOne(c => c.Event)
+                .WithMany(e => e.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

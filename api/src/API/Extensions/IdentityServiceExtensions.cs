@@ -23,16 +23,32 @@
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("IsEventHost", policy =>
                 {
-                    policy.Requirements.Add(new IsHostRequirement());
+                    policy.Requirements.Add(new IsEventHostRequirement());
                 });
             });
-            services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, IsEventHostRequirementHandler>();
             services.AddScoped<TokenService>();
 
             return services;

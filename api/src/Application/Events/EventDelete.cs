@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class Delete
+    public class EventDelete
     {
         public class Command : IRequest<Result<Unit>>
         {

@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class UpdateAttendance
+    public class EventUpdateAttendance
     {
         public class Command : IRequest<Result<Unit>>
         {

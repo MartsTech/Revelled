@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class Create
+    public class EventCreate
     {
         public class Command : IRequest<Result<Unit>>
         {

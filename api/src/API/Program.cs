@@ -1,5 +1,3 @@
-using Application.Events;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,7 +9,7 @@ builder.Services.AddControllers(opt =>
 })
 .AddFluentValidation(config =>
 {
-    config.RegisterValidatorsFromAssemblyContaining<Create>();
+    config.RegisterValidatorsFromAssemblyContaining<EventCreate>();
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,6 +36,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chat");
 
 // Seed Data
 

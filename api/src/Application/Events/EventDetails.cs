@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class Details
+    public class EventDetails
     {
         public class Query : IRequest<Result<EventDto>>
         {

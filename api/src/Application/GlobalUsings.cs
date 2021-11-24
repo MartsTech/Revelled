@@ -1,4 +1,5 @@
-﻿global using Application.Core;
+﻿global using Application.Comments;
+global using Application.Core;
 global using Application.Events;
 global using Application.Interfaces;
 global using Application.Photos;
