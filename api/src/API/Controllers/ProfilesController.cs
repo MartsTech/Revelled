@@ -13,5 +13,11 @@
         {
             return HandleResult(await Mediator.Send(command));
         }
+
+        [HttpGet("{username}/events")]
+        public async Task<IActionResult> GetProfileEvents(string username, string predicate)
+        {
+            return HandleResult(await Mediator.Send(new ProfileListEvents.Query { Username = username, Predicate = predicate }));
+        }
     }
 }

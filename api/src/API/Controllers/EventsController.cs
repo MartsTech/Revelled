@@ -3,9 +3,9 @@
     public class EventsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetEvents()
+        public async Task<IActionResult> GetEvents([FromQuery] EventParams eventParams)
         {
-            return HandleResult(await Mediator.Send(new EventList.Query()));
+            return HandlePagedResult(await Mediator.Send(new EventList.Query { Params = eventParams }));
         }
 
         [HttpGet("{id}")]

@@ -1,6 +1,6 @@
 ﻿namespace Application.Core
 {
-    public class MappingProfiles : Profile
+    public class MappingProfiles : AutoMapper.Profile
     {
         public MappingProfiles()
         {
@@ -28,6 +28,13 @@
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
                 .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url));
+            CreateMap<EventAttendee, ProfileEventDto>()
+               .ForMember(d => d.Id, o => o.MapFrom(s => s.Event.Id))
+               .ForMember(d => d.Title, o => o.MapFrom(s => s.Event.Title))
+               .ForMember(d => d.StartDate, o => o.MapFrom(s => s.Event.StartDate))
+               .ForMember(d => d.EndDate, o => o.MapFrom(s => s.Event.EndDate))
+               .ForMember(d => d.HostUsername, o => o.MapFrom(s =>
+                   s.Event.Attendees.FirstOrDefault(x => x.IsHost).AppUser.UserName));
         }
     }
 }
