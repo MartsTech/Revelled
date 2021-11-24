@@ -22,7 +22,7 @@
             {
                 var eventArgs = await _context.Events
                     .Include(e => e.Attendees)
-                    .ThenInclude(a => a.AppUser)
+                    .ThenInclude(u => u.AppUser)
                     .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (eventArgs == null)

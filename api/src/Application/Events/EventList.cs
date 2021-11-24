@@ -2,7 +2,8 @@
 {
     public class EventList
     {
-        public class Query : IRequest<Result<PagedList<EventDto>>> {
+        public class Query : IRequest<Result<PagedList<EventDto>>> 
+        {
             public EventParams Params { get; set; }
         };
 

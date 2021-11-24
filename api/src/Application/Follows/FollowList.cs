@@ -16,9 +16,9 @@
 
             public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
             {
-                _userAccessor = userAccessor;
                 _context = context;
                 _mapper = mapper;
+                _userAccessor = userAccessor;
             }
 
             public async Task<Result<List<Profiles.Profile>>> Handle(Query request, CancellationToken cancellationToken)

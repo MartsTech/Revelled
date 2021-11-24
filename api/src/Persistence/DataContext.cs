@@ -16,36 +16,38 @@
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<EventAttendee>(x =>
+            builder.Entity<EventAttendee>(b =>
             {
-                x.HasKey(a => new { a.AppUserId, a.EventId });
+                b.HasKey(a => new { a.AppUserId, a.EventId });
 
-                x.HasOne(a => a.AppUser)
-                    .WithMany(u => u.Events)
-                    .HasForeignKey(a => a.AppUserId);
+                b.HasOne(u => u.AppUser)
+                    .WithMany(e => e.Events)
+                    .HasForeignKey(a => a.AppUserId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                x.HasOne(a => a.Event)
-                    .WithMany(e => e.Attendees)
-                    .HasForeignKey(a => a.EventId);
+                b.HasOne(e => e.Event)
+                    .WithMany(a => a.Attendees)
+                    .HasForeignKey(a => a.EventId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Comment>()
-                .HasOne(c => c.Event)
-                .WithMany(e => e.Comments)
+                .HasOne(e => e.Event)
+                .WithMany(c => c.Comments)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<UserFollowing>(x =>
+            builder.Entity<UserFollowing>(b =>
             {
-                x.HasKey(k => new { k.ObserverId, k.TargetId });
+                b.HasKey(f => new { f.ObserverId, f.TargetId });
 
-                x.HasOne(o => o.Observer)
+                b.HasOne(o => o.Observer)
                     .WithMany(f => f.Followings)
                     .HasForeignKey(o => o.ObserverId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                x.HasOne(o => o.Target)
+                b.HasOne(t => t.Target)
                     .WithMany(f => f.Followers)
-                    .HasForeignKey(o => o.TargetId)
+                    .HasForeignKey(t => t.TargetId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
         }

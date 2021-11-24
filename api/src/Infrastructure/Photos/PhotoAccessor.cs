@@ -49,12 +49,12 @@
 
             var result = await _cloudinary.DestroyAsync(deleteParams);
 
-            if (result.Result == "ok")
+            if (result.Result != "ok")
             {
-                return result.Result;
+                return null;
             }
 
-            return null;
+            return result.Result;
         }
     }
 }
