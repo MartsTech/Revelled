@@ -15,7 +15,7 @@
 
             var message = new SendGridMessage
             {
-                From = new EmailAddress(_config["EmailSender"], _config["Sendgrid:User"]),
+                From = new EmailAddress(_config["EmailSender"], _config["SendGrid:User"]),
                 Subject = emailSubject,
                 PlainTextContent = msg,
                 HtmlContent = msg
