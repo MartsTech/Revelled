@@ -30,7 +30,7 @@
 
                 if (request.Params.IsGoing && !request.Params.IsHost)
                 {
-                    query = query.Where(x => x.Attendees.Any(a => a.AppUser.UserName == _userAccessor.GetUsername()));
+                    query = query.Where(x => x.Attendees.Any(a => a.User.UserName == _userAccessor.GetUsername()));
                 }
 
                 if (request.Params.IsHost && !request.Params.IsGoing)

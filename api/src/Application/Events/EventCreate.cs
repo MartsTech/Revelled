@@ -33,7 +33,7 @@
 
                 var attendee = new EventAttendee
                 {
-                    AppUser = user,
+                    User = user,
                     Event = request.Event,
                     IsHost = true
                 };

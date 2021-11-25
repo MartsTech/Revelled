@@ -9,7 +9,7 @@
             _config = config;
         }
 
-        public string CreateToken(AppUser user)
+        public string CreateToken(User user)
         {
             var claims = new List<Claim>
             {
@@ -18,7 +18,7 @@
                 new Claim(ClaimTypes.Email, user.Email)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSettings:TokenKey"]));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

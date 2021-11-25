@@ -1,6 +1,6 @@
 ﻿namespace Persistence
 {
-    public class DataContext : IdentityDbContext<AppUser>
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -18,11 +18,11 @@
 
             builder.Entity<EventAttendee>(b =>
             {
-                b.HasKey(a => new { a.AppUserId, a.EventId });
+                b.HasKey(a => new { a.UserId, a.EventId });
 
-                b.HasOne(u => u.AppUser)
+                b.HasOne(u => u.User)
                     .WithMany(e => e.Events)
-                    .HasForeignKey(a => a.AppUserId)
+                    .HasForeignKey(a => a.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(e => e.Event)

@@ -12,7 +12,6 @@ builder.Services.AddControllers(opt =>
     config.RegisterValidatorsFromAssemblyContaining<EventCreate>();
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
@@ -74,9 +73,9 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context, userManager);
+    await DbInitializer.Initialize(context, userManager);
 }
 catch (Exception ex)
 {

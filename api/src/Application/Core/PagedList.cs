@@ -2,12 +2,12 @@
 {
     public class PagedList<T> : List<T>
     {
-        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
+            TotalCount = count;
+            PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            PageSize = pageSize;
-            TotalCount = count;
             AddRange(items);
         }
 
@@ -16,11 +16,11 @@
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
 
-        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> query, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var count = await source.CountAsync(cancellationToken);
+            var count = await query.CountAsync(cancellationToken);
 
-            var items = await source
+            var items = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);

@@ -1,27 +1,27 @@
 ﻿namespace Persistence
 {
-    public static class Seed
+    public static class DbInitializer
     {
-        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+        public static async Task Initialize(DataContext context, UserManager<User> userManager)
         {
             if (userManager.Users.Any() && context.Events.Any()) return;
 
-            var users = new List<AppUser>
+            var users = new List<User>
             {
-                new AppUser
+                new User
                 {
                     DisplayName = "Bob",
                     UserName = "bob",
                     Email = "bob@test.com",
                     EmailConfirmed = true,
                 },
-                new AppUser
+                new User
                 {
                     DisplayName = "Jane",
                     UserName = "jane",
                     Email = "jane@test.com"
                 },
-                new AppUser
+                new User
                 {
                     DisplayName = "Tom",
                     UserName = "tom",
@@ -46,7 +46,7 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[0],
+                            User = users[0],
                             IsHost = true
                         }
                     }
@@ -61,12 +61,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[0],
+                            User = users[0],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = false
                         }
                     }
@@ -81,12 +81,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[2],
+                            User = users[2],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = false
                         }
                     }
@@ -101,12 +101,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[0],
+                            User = users[0],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[2],
+                            User = users[2],
                             IsHost = false
                         }
                     }
@@ -121,12 +121,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[0],
+                            User = users[0],
                             IsHost = false
                         }
                     }
@@ -141,7 +141,7 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = true
                         }
                     }
@@ -156,12 +156,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[0],
+                            User = users[0],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = false
                         }
                     }
@@ -176,12 +176,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[2],
+                            User = users[2],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = false
                         }
                     }
@@ -196,12 +196,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[0],
+                            User = users[0],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[2],
+                            User = users[2],
                             IsHost = false
                         }
                     }
@@ -216,12 +216,12 @@
                     {
                         new EventAttendee
                         {
-                            AppUser = users[2],
+                            User = users[2],
                             IsHost = true
                         },
                         new EventAttendee
                         {
-                            AppUser = users[1],
+                            User = users[1],
                             IsHost = false
                         }
                     }

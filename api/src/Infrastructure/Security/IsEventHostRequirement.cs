@@ -29,7 +29,7 @@
 
             var attendee = _dbContext.EventAttendees
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.AppUserId == userId && x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.UserId == userId && x.EventId == eventId)
                 .Result;
 
             if (attendee == null)

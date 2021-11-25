@@ -22,7 +22,7 @@
             {
                 var eventArgs = await _context.Events
                     .Include(e => e.Attendees)
-                    .ThenInclude(u => u.AppUser)
+                    .ThenInclude(u => u.User)
                     .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
                 if (eventArgs == null)
@@ -38,9 +38,9 @@
                     return null;
                 }
 
-                var hostUsername = eventArgs.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser?.UserName;
+                var hostUsername = eventArgs.Attendees.FirstOrDefault(x => x.IsHost)?.User?.UserName;
 
-                var attendance = eventArgs.Attendees.FirstOrDefault(x => x.AppUser.UserName == user.UserName);
+                var attendance = eventArgs.Attendees.FirstOrDefault(x => x.User.UserName == user.UserName);
 
                 if (attendance != null && hostUsername == user.UserName)
                 {
@@ -54,7 +54,7 @@
                 {
                     attendance = new EventAttendee
                     {
-                        AppUser = user,
+                        User = user,
                         Event = eventArgs,
                         IsHost = false,
                     };

@@ -1,6 +1,6 @@
 ﻿namespace Application.Events
 {
-    public class EventParams : PagingParams
+    public class EventParams : PaginationParams
     {
         public bool IsGoing { get; set; }
         public bool IsHost { get; set; }

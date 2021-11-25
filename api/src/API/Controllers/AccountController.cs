@@ -4,12 +4,12 @@
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly TokenService _tokenService;
         private readonly EmailSender _emailSender;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> 
+        public AccountController(UserManager<User> userManager, SignInManager<User> 
             signInManager, TokenService tokenService, EmailSender emailSender)
         {
             _userManager = userManager;
@@ -63,7 +63,7 @@
                 return ValidationProblem();
             }
 
-            var user = new AppUser
+            var user = new User
             {
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
@@ -180,7 +180,7 @@
             return CreateUserDto(user);
         }
 
-        private async Task SetRefreshToken(AppUser user)
+        private async Task SetRefreshToken(User user)
         {
             var refreshToken = _tokenService.GenerateRefreshToken();
 
@@ -197,7 +197,7 @@
             Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
         }
 
-        private UserDto CreateUserDto(AppUser user)
+        private UserDto CreateUserDto(User user)
         {
             return new UserDto
             {

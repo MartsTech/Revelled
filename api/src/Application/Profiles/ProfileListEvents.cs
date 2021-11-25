@@ -22,7 +22,7 @@
             public async Task<Result<List<ProfileEventDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var query = _context.EventAttendees
-                    .Where(u => u.AppUser.UserName == request.Username)
+                    .Where(u => u.User.UserName == request.Username)
                     .OrderBy(a => a.Event.StartDate)
                     .ProjectTo<ProfileEventDto>(_mapper.ConfigurationProvider)
                     .AsQueryable();
