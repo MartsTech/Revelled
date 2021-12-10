@@ -33,14 +33,14 @@
 
             if (!user.EmailConfirmed)
             {
-                return Unauthorized("Email not confirmed");
+                return Unauthorized("Email not confirmed.");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (!result.Succeeded)
             {
-                return Unauthorized("Invalid password");
+                return Unauthorized("Invalid password.");
             }
 
             await SetRefreshToken(user);
@@ -144,17 +144,6 @@
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<ActionResult<UserDto>> GetCurrentUser()
-        {
-            var user = await _userManager.Users
-                .Include(x => x.Photos)
-                .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
-
-            return CreateUserDto(user);
-        }
-
-        [Authorize]
         [HttpPost("refreshToken")]
         public async Task<ActionResult<UserDto>> RefreshToken()
         {
@@ -176,6 +165,17 @@
             {
                 return Unauthorized();
             }
+
+            return CreateUserDto(user);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var user = await _userManager.Users
+                .Include(x => x.Photos)
+                .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
             return CreateUserDto(user);
         }
