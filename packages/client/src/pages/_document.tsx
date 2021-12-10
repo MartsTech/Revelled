@@ -7,6 +7,10 @@ import NextDocument, {
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
+const APP_NAME = "Revelled";
+const APP_DESCRIPTION =
+  "A public event management and advertisement platform for interactive events";
+
 class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
@@ -36,13 +40,26 @@ class Document extends NextDocument {
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" dir="ltr">
         <Head>
+          <meta name="application-name" content={APP_NAME} />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
-            name="description"
-            content="A public event management and advertisement platform for interactive events"
+            name="apple-mobile-web-app-status-bar-style"
+            content="default"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <meta name="apple-mobile-web-app-title" content={APP_NAME} />
+          <meta name="description" content={APP_DESCRIPTION} />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="theme-color" content="#FFFFFF" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/icons/apple-touch-icon.png"
+          />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />
