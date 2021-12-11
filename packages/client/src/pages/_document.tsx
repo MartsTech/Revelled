@@ -53,13 +53,31 @@ class Document extends NextDocument {
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#0b0e11" />
+          <meta name="msapplication-TileColor" content="#da532c" />
+          <link rel="shortcut icon" href="/favicons/favicon.ico" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="/icons/apple-touch-icon.png"
+            href="/favicons/apple-touch-icon.png"
           />
-          <link rel="manifest" href="/manifest.json" />
-          <link rel="shortcut icon" href="/favicon.ico" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicons/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicons/favicon-16x16.png"
+          />
+          <link rel="manifest" href="/favicons/site.webmanifest" />
+          <link
+            rel="mask-icon"
+            href="/favicons/safari-pinned-tab.svg"
+            color="#5bbad5"
+          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
