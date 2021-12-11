@@ -1,8 +1,10 @@
+import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "styles/Globals";
 import Theme from "styles/Theme";
+import { defaultSEO } from "utils/seo";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -14,6 +16,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <GlobalStyle />
+      <DefaultSeo {...defaultSEO} />
       <Component {...pageProps} />
     </ThemeProvider>
   );

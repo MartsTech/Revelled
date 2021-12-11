@@ -1,10 +1,5 @@
-import { util } from "./util";
-
 declare let self: ServiceWorkerGlobalScope;
 
-util();
-
-// listen to message event from window
 self.addEventListener("message", (event) => {
   console.log(event?.data);
 });
@@ -24,7 +19,7 @@ self.addEventListener("notificationclick", (event) => {
   event?.waitUntil(
     self.clients
       .matchAll({ type: "window", includeUncontrolled: true })
-      .then(function (clientList) {
+      .then((clientList) => {
         if (clientList.length > 0) {
           let client = clientList[0];
           for (let i = 0; i < clientList.length; i++) {
@@ -38,3 +33,5 @@ self.addEventListener("notificationclick", (event) => {
       })
   );
 });
+
+export {};
