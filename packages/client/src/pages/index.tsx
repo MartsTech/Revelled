@@ -1,14 +1,16 @@
+import Login from "modules/login";
 import type { NextPage } from "next";
 import Head from "next/head";
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Revelled</title>
+        <title>Login | Revelled</title>
       </Head>
+      <Login />
     </>
   );
 };
 
-export default Home;
+export default HomePage;
