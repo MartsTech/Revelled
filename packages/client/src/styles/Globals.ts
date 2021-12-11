@@ -102,7 +102,7 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
 
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-primary-700);
-    border-radius: 5px;
+    border-radius: 0.25rem;
   }
 
   ::-webkit-resizer {
