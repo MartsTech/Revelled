@@ -37,6 +37,9 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
     --color-accent-disabled: #f5bfbf;
     --screen-height-reduction: 0px;
     --color-primary-100-translucent: rgba(222, 227, 234, 0.15);
+
+    --tw-ring-offset-width: 0px,
+    --tw-ring-color: rgba(59,130,246,0.5)
 } 
 
   h1 {

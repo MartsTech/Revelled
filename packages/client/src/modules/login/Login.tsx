@@ -1,6 +1,7 @@
 import Logo from "icons/Logo";
 import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
+import LoginButton from "./components/LoginButton";
 
 const Login = () => {
   return (
@@ -19,6 +20,9 @@ const Login = () => {
             <StyledLink>Terms of Service</StyledLink>.
           </StyledMessageContainer>
         </StyledTextContainer>
+        <StyledLoginContainer>
+          <LoginButton>Test</LoginButton>
+        </StyledLoginContainer>
       </StyledMain>
     </StyledContainer>
   );
@@ -55,7 +59,7 @@ const StyledMain = styled.main`
   display: flex;
   margin: auto;
   flex-direction: column;
-  padding: 2.5rem;
+  padding: 2.5rem 0;
   gap: 1.75rem;
   background-color: ${({ theme }) => theme.colors.primary[800]};
   z-index: 10;
@@ -64,6 +68,7 @@ const StyledMain = styled.main`
   @media (${Breakpoints.small}) {
     border-radius: 0.5rem;
     width: 25rem;
+    padding: 2.5rem;
   }
 `;
 
@@ -71,6 +76,11 @@ const StyledTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0 2.5rem;
+
+  @media (${Breakpoints.small}) {
+    padding: 0;
+  }
 `;
 
 const StyledWelcome = styled.span`
@@ -91,4 +101,10 @@ const StyledLink = styled.a`
   :hover {
     text-decoration: underline;
   }
+`;
+
+const StyledLoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 `;
