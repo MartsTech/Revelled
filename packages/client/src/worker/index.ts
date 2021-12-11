@@ -9,7 +9,7 @@ self.addEventListener("push", (event) => {
   event?.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.message,
-      icon: "/icons/android-chrome-192x192.png",
+      icon: "/favicons/android-chrome-192x192.png",
     })
   );
 });
