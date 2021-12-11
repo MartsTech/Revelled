@@ -6,7 +6,8 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
   h2,
   h3,
   h4,
-  p {
+  p,
+  a {
     line-height: 1.6rem;
   }
 

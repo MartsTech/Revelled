@@ -25,7 +25,6 @@ type ButtonProps = DetailedHTMLProps<
   color?: ButtonColor;
   loading?: boolean;
   icon?: ReactNode;
-  transition?: boolean;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -79,6 +78,10 @@ const StyledButton = styled.button<{
     opacity, box-shadow, transform, filter, backdrop-filter;
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  :focus {
+    box-shadow: inset 0 0 0 2px currentColor;
+  }
 
   ${({ color }) =>
     color === "primary"

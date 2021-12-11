@@ -1,7 +1,9 @@
 import Logo from "icons/Logo";
 import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
-import LoginButton from "./components/LoginButton";
+import LoginLinks from "./components/LoginLinks";
+import LoginMethods from "./components/LoginMethods";
+import LoginTerms from "./components/LoginTerms";
 
 const Login = () => {
   return (
@@ -11,19 +13,15 @@ const Login = () => {
         <Logo />
       </StyledLogoContainer>
       <StyledMain>
-        <StyledTextContainer>
-          <StyledWelcome>Welcome</StyledWelcome>
-          <StyledMessageContainer>
-            By logging in you accept our&nbsp;
-            <StyledLink href="/privacy-policy.html">Privacy Policy</StyledLink>
-            &nbsp;and&nbsp;
-            <StyledLink>Terms of Service</StyledLink>.
-          </StyledMessageContainer>
-        </StyledTextContainer>
-        <StyledLoginContainer>
-          <LoginButton>Test</LoginButton>
-        </StyledLoginContainer>
+        <LoginTerms />
+        <LoginMethods />
       </StyledMain>
+      <StyledFooter>
+        <StyledPlaceholder>
+          <Logo />
+        </StyledPlaceholder>
+        <LoginLinks />
+      </StyledFooter>
     </StyledContainer>
   );
 };
@@ -57,10 +55,10 @@ const StyledLogoContainer = styled.div`
 
 const StyledMain = styled.main`
   display: flex;
-  margin: auto;
   flex-direction: column;
-  padding: 2.5rem 0;
-  gap: 1.75rem;
+  margin: auto;
+  padding: 3rem 0;
+  gap: 1.875rem;
   background-color: ${({ theme }) => theme.colors.primary[800]};
   z-index: 10;
   width: 100%;
@@ -68,43 +66,21 @@ const StyledMain = styled.main`
   @media (${Breakpoints.small}) {
     border-radius: 0.5rem;
     width: 25rem;
-    padding: 2.5rem;
+    padding: 3rem;
   }
 `;
 
-const StyledTextContainer = styled.div`
+const StyledFooter = styled.footer`
+  position: absolute;
+  bottom: 0;
+  width: 90%;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0 2.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem;
+  margin-top: auto;
 
   @media (${Breakpoints.small}) {
-    padding: 0;
+    padding: 1.75rem 3.75rem;
   }
-`;
-
-const StyledWelcome = styled.span`
-  font-size: ${({ theme }) => theme.fontSize["3xl"]};
-  color: ${({ theme }) => theme.colors.primary[100]};
-  font-weight: bold;
-`;
-
-const StyledMessageContainer = styled.div`
-  color: ${({ theme }) => theme.colors.primary[100]};
-  flex-wrap: wrap;
-`;
-
-const StyledLink = styled.a`
-  color: ${({ theme }) => theme.colors.accent["DEFAULT"]};
-  text-decoration: none;
-
-  :hover {
-    text-decoration: underline;
-  }
-`;
-
-const StyledLoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
 `;
