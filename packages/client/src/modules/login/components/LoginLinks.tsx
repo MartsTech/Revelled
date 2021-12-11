@@ -1,7 +1,6 @@
 import SvgSolidDiscord from "icons/SolidDiscord";
 import SvgSolidGitHub from "icons/SolidGitHub";
 import styled from "styled-components";
-import Breakpoints from "styles/Breakpoints";
 
 const LoginLinks = () => {
   return (
