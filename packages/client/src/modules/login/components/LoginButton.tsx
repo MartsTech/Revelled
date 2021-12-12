@@ -7,7 +7,7 @@ interface LoginButtonProps {
   onClick?: () => void;
 }
 
-const LoginButton: FC<LoginButtonProps> = ({ children, onClick, ...props }) => {
+const LoginButton: FC<LoginButtonProps> = ({ children, ...props }) => {
   return (
     <StyledButton color="secondary" {...props}>
       <StyledContainer>

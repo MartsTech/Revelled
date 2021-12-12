@@ -6,11 +6,7 @@ import NextDocument, {
   NextScript,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-
-const APP_NAME = "Revelled";
-const APP_DESCRIPTION =
-  "A public event management and advertisement platform for interactive events.";
-const APP_URL = "https://revelled.vercel.app/";
+import { APP_DESCRIPTION, APP_NAME, APP_URL } from "utils/constants";
 
 class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
@@ -59,7 +55,6 @@ class Document extends NextDocument {
           <meta content="en_US" property="og:locale" />
           <meta charSet="utf-8" />
           <meta content="IE=edge" httpEquiv="X-UA-Compatible" />
-          <meta content="width=device-width, initial-scale=1" name="viewport" />
           <meta content="follow, index" name="robots" />
           <meta name="yandex-verification" content="9b2ec89af6a679a8" />
           <meta

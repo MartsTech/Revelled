@@ -1,5 +1,5 @@
-import SvgSolidDiscord from "icons/SolidDiscord";
 import SvgSolidGitHub from "icons/SolidGitHub";
+import SvgSolidTwitter from "icons/SolidTwitter";
 import styled from "styled-components";
 
 const LoginLinks = () => {
@@ -9,18 +9,20 @@ const LoginLinks = () => {
       <StyledLink href="https://github.com/MartsTech/Revelled/issues">
         Report a bug
       </StyledLink>
-      <StyledContacts>
-        <StyledLink
-          href="https://github.com/MartsTech/Revelled"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <SvgSolidGitHub width={20} height={20} />
-        </StyledLink>
-        <StyledLink href="https://discord.gg" target="_blank" rel="noreferrer">
-          <SvgSolidDiscord width={20} height={20} />
-        </StyledLink>
-      </StyledContacts>
+      <StyledLink
+        href="https://github.com/MartsTech/Revelled"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <SvgSolidGitHub width={20} height={20} />
+      </StyledLink>
+      <StyledLink
+        href="https://twitter.com/martstech"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <SvgSolidTwitter width={20} height={20} />
+      </StyledLink>
     </StyledContainer>
   );
 };
@@ -30,6 +32,7 @@ export default LoginLinks;
 const StyledContainer = styled.div`
   display: flex;
   align-items: center;
+  text-align: center;
   gap: 2.5rem;
   color: ${({ theme }) => theme.colors.primary[300]};
   padding: 1.5rem 0;
@@ -38,16 +41,9 @@ const StyledContainer = styled.div`
 const StyledLink = styled.a`
   color: ${({ theme }) => theme.colors.primary[300]};
   text-decoration: none;
-
-  text-align: center;
   cursor: pointer;
 
   :hover {
     color: ${({ theme }) => theme.colors.primary[200]};
   }
-`;
-
-const StyledContacts = styled.div`
-  display: flex;
-  gap: 1.75rem;
 `;
