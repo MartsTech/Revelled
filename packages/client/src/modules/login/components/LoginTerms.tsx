@@ -42,6 +42,7 @@ const StyledLinks = styled.div`
 const StyledLink = styled.a`
   color: ${({ theme }) => theme.colors.accent["DEFAULT"]};
   text-decoration: none;
+  line-height: 1.6rem;
 
   :hover {
     text-decoration: underline;

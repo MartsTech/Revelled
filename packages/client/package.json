@@ -1,7 +1,16 @@
 {
   "name": "revelled",
+  "description": "A public event management and advertisement platform for interactive events.",
   "version": "1.0.0",
+  "author": {
+    "name": "Martin Velkov",
+    "url": "https://github.com/MartsTech"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MartsTech/Revelled.git"
+  },
   "private": true,
   "scripts": {
     "dev": "next",

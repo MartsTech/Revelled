@@ -1,15 +1,18 @@
+import Page from "layouts/page";
 import Login from "modules/login";
 import type { NextPage } from "next";
-import Head from "next/head";
 
 const HomePage: NextPage = () => {
   return (
-    <>
-      <Head>
-        <title>Login | Revelled</title>
-      </Head>
+    <Page
+      title={"Login | Revelled"}
+      description={
+        "Login in Revelled, a platform for organizing and maniging events."
+      }
+      image={"/favicons/icon-512x512.png"}
+    >
       <Login />
-    </>
+    </Page>
   );
 };
 

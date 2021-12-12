@@ -54,7 +54,24 @@ class Document extends NextDocument {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#0b0e11" />
           <meta name="msapplication-TileColor" content="#da532c" />
+          <meta content="en_US" property="og:locale" />
+          <meta charSet="utf-8" />
+          <meta content="IE=edge" httpEquiv="X-UA-Compatible" />
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
+          <meta content="follow, index" name="robots" />
+          <meta name="yandex-verification" content="9b2ec89af6a679a8" />
+          <meta
+            name="google-site-verification"
+            content="0v5wkb42rasaONHLyEFaEIdXPdu18kpiTbWP_lPdJMs"
+          />
+          <meta content="summary_large_image" name="twitter:card" />
+          <meta content="@martstech" name="twitter:site" />
+          <meta content="@martstech" name="twitter:creator" />
           <link rel="shortcut icon" href="/favicons/favicon.ico" />
+          <meta
+            content="/favicons/browserconfig.xml"
+            name="msapplication-config"
+          />
           <link
             rel="apple-touch-icon"
             sizes="180x180"

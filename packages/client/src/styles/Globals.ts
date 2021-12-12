@@ -2,23 +2,6 @@ import { createGlobalStyle } from "styled-components";
 import Theme from "./Theme";
 
 const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
-  h1,
-  h2,
-  h3,
-  h4,
-  p,
-  a {
-    line-height: 1.6rem;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  p.bold {
-    font-weight: 700;
-  }
-
   :root {
     font-size: 0.875rem;
 
@@ -36,33 +19,19 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
     --color-accent: #fd4d4d;
     --color-accent-hover: #fd6868;
     --color-accent-disabled: #f5bfbf;
-} 
-
-  h1 {
-    font-size: 4rem;
   }
 
-  h2 {
-    font-size: 2.8rem;
+  * {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    font: inherit;
   }
-
-  h3 {
-    font-size: 2rem;
-  }
-
-  h4 {
-    font-size: 1.4rem;
-  }
-
-  p {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
-  p.small {
-    font-size: 0.85rem;
-  }
-
+ 
   html,
   body,
   #__next {
@@ -72,8 +41,7 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
     height: 100%;
     width: 100%;
     display: flex;
-    margin: 0;
-    padding: 0;
+    text-rendering: optimizeLegibility;
   }
 
   html {
@@ -82,6 +50,10 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
 
   #__next {
     overflow-y: auto;
+  }
+
+  a {
+    text-decoration: none;
   }
 
     /* for firefox */
@@ -93,7 +65,6 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
   /* for non-firefox */
   ::-webkit-scrollbar {
     overflow: overlay;
-    width: 0.5rem;
   }
 
   ::-webkit-scrollbar-track {
@@ -102,7 +73,6 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof Theme }>`
 
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-primary-700);
-    border-radius: 0.25rem;
   }
 
   ::-webkit-resizer {
