@@ -4,13 +4,7 @@ import type { NextPage } from "next";
 
 const HomePage: NextPage = () => {
   return (
-    <Page
-      title={"Login | Revelled"}
-      description={
-        "Login in Revelled, a platform for organizing and maniging events."
-      }
-      image={"/favicons/icon-512x512.png"}
-    >
+    <Page title={"Login | Revelled"}>
       <Login />
     </Page>
   );
