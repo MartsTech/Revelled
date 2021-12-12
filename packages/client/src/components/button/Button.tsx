@@ -4,7 +4,8 @@ import type {
   FC,
   ReactNode,
 } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import Theme from "styles/Theme";
 import Accent from "./colors/Accent";
 import Primary from "./colors/Primary";
 import Secondary from "./colors/Secondary";
@@ -25,6 +26,7 @@ type ButtonProps = DetailedHTMLProps<
   color?: ButtonColor;
   loading?: boolean;
   icon?: ReactNode;
+  theme?: typeof Theme;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -45,7 +47,7 @@ const Button: FC<ButtonProps> = ({
       data-testid="button"
       {...props}
     >
-      <StyledContent loading={loading}>
+      <StyledContent>
         {icon && <StyledIconContainer>{icon}</StyledIconContainer>}
         {children}
       </StyledContent>
@@ -83,6 +85,13 @@ const StyledButton = styled.button<{
     box-shadow: inset 0 0 0 2px currentColor;
   }
 
+  :disabled {
+    &&& {
+      background-color: ${({ theme }) => theme.colors.primary[700]};
+      cursor: not-allowed;
+    }
+  }
+
   ${({ color }) =>
     color === "primary"
       ? Primary
@@ -96,16 +105,9 @@ const StyledButton = styled.button<{
     size === "big" ? Big : size === "small" ? Small : size === "tiny" && Tiny}
 `;
 
-const StyledContent = styled.span<{ loading: boolean }>`
-  ${({ loading }) =>
-    loading
-      ? css`
-          opacity: 0;
-        `
-      : css`
-          display: flex;
-          align-items: center;
-        `}
+const StyledContent = styled.span`
+  display: flex;
+  align-items: center;
 `;
 
 const StyledIconContainer = styled.span`
