@@ -26,10 +26,13 @@ const Page: FC<PageProps> = ({
   return (
     <>
       <Head>
+        {/* HTML Meta Tags */}
         <title>{title}</title>
         {description && <meta content={description} name="description" />}
         {keywords && <meta content={keywords} name="keywords" />}
         {url && <link href={canonical} rel="canonical" />}
+
+        {/*Facebook Meta Tags */}
         <meta content={title} property="og:title" />
         <meta content={description} property="og:description" />
         <meta content={canonical} property="og:url" />

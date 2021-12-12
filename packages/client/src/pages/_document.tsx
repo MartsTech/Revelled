@@ -10,6 +10,7 @@ import { ServerStyleSheet } from "styled-components";
 const APP_NAME = "Revelled";
 const APP_DESCRIPTION =
   "A public event management and advertisement platform for interactive events.";
+const APP_URL = "https://revelled.vercel.app/";
 
 class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
@@ -42,6 +43,7 @@ class Document extends NextDocument {
     return (
       <Html lang="en" dir="ltr">
         <Head>
+          {/* HTML Meta Tags */}
           <meta name="application-name" content={APP_NAME} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
@@ -64,14 +66,36 @@ class Document extends NextDocument {
             name="google-site-verification"
             content="0v5wkb42rasaONHLyEFaEIdXPdu18kpiTbWP_lPdJMs"
           />
-          <meta content="summary_large_image" name="twitter:card" />
-          <meta content="@martstech" name="twitter:site" />
-          <meta content="@martstech" name="twitter:creator" />
-          <link rel="shortcut icon" href="/favicons/favicon.ico" />
           <meta
             content="/favicons/browserconfig.xml"
             name="msapplication-config"
           />
+
+          {/* Facebook Meta Tags */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={APP_URL} />
+          <meta property="og:title" content={APP_NAME} />
+          <meta property="og:description" content={APP_DESCRIPTION} />
+          <meta
+            property="og:image"
+            content={`${APP_URL}favicons/icon-512x512.png`}
+          />
+
+          {/* Twitter Meta Tags */}
+          <meta content="@martstech" name="twitter:site" />
+          <meta content="@martstech" name="twitter:creator" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta property="twitter:domain" content="revelled.vercel.app" />
+          <meta property="twitter:url" content={APP_URL} />
+          <meta name="twitter:title" content={APP_NAME} />
+          <meta name="twitter:description" content={APP_DESCRIPTION} />
+          <meta
+            name="twitter:image"
+            content={`${APP_URL}favicons/icon-512x512.png`}
+          />
+
+          {/* Links */}
+          <link rel="shortcut icon" href="/favicons/favicon.ico" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
