@@ -31,7 +31,7 @@ const Button: FC<ButtonProps> = ({
   children,
   size = "big",
   color = "primary",
-  disabled,
+  disabled = false,
   loading = false,
   icon,
   ref,
