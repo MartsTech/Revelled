@@ -13,7 +13,7 @@ const SidebarNav: FC<SidebarNavProps> = ({ title, href, Icon }) => {
     <Link href={href} passHref>
       <StyledNav>
         <StyledContainer>
-          <Icon height={24} width={22} />
+          <Icon height={20} width={20} />
           <StyledTitle>{title}</StyledTitle>
         </StyledContainer>
       </StyledNav>
@@ -43,5 +43,5 @@ const StyledContainer = styled.div`
 `;
 
 const StyledTitle = styled.h5`
-  font-size: ${({ theme }) => theme.fontSize["xl"]};
+  font-size: ${({ theme }) => theme.fontSize["lg"]};
 `;
