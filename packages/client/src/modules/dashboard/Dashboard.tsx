@@ -17,6 +17,9 @@ export default Dashboard;
 
 const StyledContainer = styled.div`
   display: flex;
+  width: 100%;
 `;
 
-const StyledMain = styled.main``;
+const StyledMain = styled.main`
+  flex: 1;
+`;
