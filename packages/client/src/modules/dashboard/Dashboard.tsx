@@ -1,4 +1,4 @@
-import SearchBar from "components/search";
+import Search from "components/search";
 import Sidebar from "components/sidebar";
 import styled from "styled-components";
 
@@ -7,7 +7,7 @@ const Dashboard = () => {
     <StyledContainer>
       <Sidebar />
       <StyledMain>
-        <SearchBar />
+        <Search />
       </StyledMain>
     </StyledContainer>
   );
