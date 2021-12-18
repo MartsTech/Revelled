@@ -29,15 +29,11 @@ export default Sidebar;
 const StyledContainer = styled.section`
   min-width: 20rem;
   height: 100vh;
-  position: fixed;
   z-index: 99;
-  top: 0;
-  left: 0;
   background: ${({ theme }) => theme.colors.primary[800]};
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 3rem 0;
 
   ::-webkit-scrollbar {
     display: none;
@@ -56,7 +52,7 @@ const StyledNavs = styled.div`
 const StyledFooter = styled.div`
   width: 100%;
   margin-top: auto;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: center;
 `;

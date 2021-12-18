@@ -15,6 +15,7 @@ const SidebarLogo = () => {
 export default SidebarLogo;
 
 const StyledContainer = styled.div`
+  padding-top: 3rem;
   margin: 0 auto;
   cursor: pointer;
 `;
