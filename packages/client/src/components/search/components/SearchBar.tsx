@@ -2,7 +2,6 @@ import Input from "components/input";
 import SvgSolidSearch from "icons/SolidSearch";
 import { ComponentPropsWithoutRef, FC } from "react";
 import styled from "styled-components";
-import Breakpoints from "styles/Breakpoints";
 
 interface SearchBarProps extends ComponentPropsWithoutRef<"input"> {
   isLoading?: boolean;
@@ -24,8 +23,7 @@ const StyledSearchBar = styled.div`
   align-items: center;
   background-color: ${({ theme }) => theme.colors.primary[700]};
   color: ${({ theme }) => theme.colors.primary[300]};
-  border-radius: 0.5rem;
-  padding: 0 1.25rem;
+  border-radius: 0.25rem;
 
   transition-property: background-color, border-color, color, fill, stroke,
     opacity, box-shadow, transform, filter, backdrop-filter;
@@ -35,16 +33,12 @@ const StyledSearchBar = styled.div`
   :focus-within {
     color: ${({ theme }) => theme.colors.primary[100]};
   }
-
-  @media (${Breakpoints.mobile}) {
-    padding: 0;
-  }
 `;
 
 const StyledIcon = styled(SvgSolidSearch)`
   display: flex;
   align-items: center;
   height: 100%;
-  margin: 0 1.25rem;
+  margin: 1rem;
   pointer-events: none;
 `;
