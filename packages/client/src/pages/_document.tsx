@@ -128,6 +128,22 @@ class Document extends NextDocument {
         <body>
           <Main />
           <NextScript />
+          <script>
+            window.fbAsyncInit = function()
+            {FB.init({
+              appId: "309816551019164",
+              autoLogAppEvents: true,
+              xfbml: true,
+              version: "v12.0",
+            })}
+            ;
+          </script>
+          <script
+            async
+            defer
+            crossOrigin="anonymous"
+            src="https://connect.facebook.net/en_US/sdk.js"
+          ></script>
         </body>
       </Html>
     );

@@ -5,6 +5,7 @@ import { Photo, Profile, UserEvent } from "types/profile";
 import { User, UserFormValues } from "types/user";
 import router from "next/router";
 import { EventFormValues } from "types/event";
+import { store } from "stores/store";
 
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
