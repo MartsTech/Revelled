@@ -12,7 +12,7 @@
                 totalItems,
                 totalPages
             };
-            response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader));
+            response.Headers.Add("Pagination", System.Text.Json.JsonSerializer.Serialize(paginationHeader));
         }
     }
 }

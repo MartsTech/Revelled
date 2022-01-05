@@ -81,7 +81,7 @@ axios.interceptors.response.use(
         break;
       }
       case 404: {
-        router.push("/not-found");
+        // router.push("/not-found");
         break;
       }
       case 500: {

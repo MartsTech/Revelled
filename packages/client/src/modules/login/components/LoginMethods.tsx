@@ -1,28 +1,26 @@
-import SvgSolidDiscord from "icons/SolidDiscord";
 import SvgSolidGitHub from "icons/SolidGitHub";
-import SvgSolidTwitter from "icons/SolidTwitter";
-import { useRouter } from "next/router";
+import { FC } from "react";
+import { useStore } from "stores/store";
 import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
+import { AuthProviders } from "types/auth";
 import LoginButton from "./LoginButton";
 
-const LoginMethods = () => {
-  const router = useRouter();
+interface LoginMethodsProps {
+  providers: AuthProviders;
+}
+
+const LoginMethods: FC<LoginMethodsProps> = ({ providers }) => {
+  const { facebookLogin } = useStore().userStore;
 
   return (
     <StyledContainer>
-      <LoginButton onClick={() => router.push("/dash")}>
-        <SvgSolidGitHub width={20} height={20} />
-        Log in with GitHub
-      </LoginButton>
-      <LoginButton onClick={() => router.push("/dash")}>
-        <SvgSolidTwitter width={20} height={20} />
-        Log in with Twitter
-      </LoginButton>
-      <LoginButton onClick={() => router.push("/dash")}>
-        <SvgSolidDiscord width={20} height={20} />
-        Log in with Discord
-      </LoginButton>
+      {Object.values(providers).map(({ id, name }) => (
+        <LoginButton key={name} onClick={() => facebookLogin(id)}>
+          <SvgSolidGitHub width={20} height={20} />
+          <>Log in with {name}</>
+        </LoginButton>
+      ))}
     </StyledContainer>
   );
 };

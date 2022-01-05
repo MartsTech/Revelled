@@ -1,11 +1,17 @@
 import Logo from "icons/Logo";
+import { FC } from "react";
 import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
+import { AuthProviders } from "types/auth";
 import LoginLinks from "./components/LoginLinks";
 import LoginMethods from "./components/LoginMethods";
 import LoginTerms from "./components/LoginTerms";
 
-const Login = () => {
+interface LoginProps {
+  providers: AuthProviders;
+}
+
+const Login: FC<LoginProps> = ({ providers }) => {
   return (
     <StyledContainer>
       <StyledPlaceholder />
@@ -14,7 +20,7 @@ const Login = () => {
       </StyledLogoContainer>
       <StyledMain>
         <LoginTerms />
-        <LoginMethods />
+        <LoginMethods providers={providers} />
       </StyledMain>
       <StyledFooter>
         <StyledPlaceholder>

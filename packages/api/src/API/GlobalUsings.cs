@@ -15,6 +15,7 @@ global using FluentValidation.AspNetCore;
 global using Infrastructure.Email;
 global using Infrastructure.Photos;
 global using Infrastructure.Security;
+global using Newtonsoft.Json;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Authorization;

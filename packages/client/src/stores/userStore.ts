@@ -3,6 +3,7 @@ import agent from "api/agent";
 import { User, UserFormValues } from "types/user";
 import { store } from "./store";
 import router from "next/router";
+import { getCsrfToken, signIn } from "next-auth/react";
 
 class UserStore {
   user: User | null = null;
@@ -85,38 +86,74 @@ class UserStore {
     });
   };
 
-  facebookLogin = () => {
+  facebookLogin = (id: string) => {
     this.fbLoading = true;
 
-    const apiLogin = (accessToken: string) => {
-      agent.Account.fbLogin(accessToken)
-        .then((user) => {
-          store.commonStore.setToken(user.token);
-          this.startRefreshTokenTimer(user);
-
-          runInAction(() => {
-            this.user = user;
-            this.fbLoading = false;
-          });
-
-          router.push("/events");
-        })
-        .catch((error) => {
-          console.log(error);
-          runInAction(() => (this.fbLoading = false));
-        });
-    };
     if (this.fbAccessToken) {
-      apiLogin(this.fbAccessToken);
+      this.apiLogin(this.fbAccessToken);
     } else {
-      window.FB.login(
-        (response) => {
-          apiLogin(response.authResponse.accessToken);
-        },
-        { scope: "public_profile,email" }
-      );
+      signIn(id, { redirect: false }).then(() => {
+        getCsrfToken().then((token) => {
+          if (token) {
+            this.apiLogin(token);
+          }
+        });
+      });
     }
   };
+
+  private apiLogin = (accessToken: string) => {
+    agent.Account.fbLogin(accessToken)
+      .then((user) => {
+        store.commonStore.setToken(user.token);
+        this.startRefreshTokenTimer(user);
+
+        runInAction(() => {
+          this.user = user;
+          this.fbLoading = false;
+        });
+
+        router.push("/events");
+      })
+      .catch((error) => {
+        console.log(error);
+        runInAction(() => (this.fbLoading = false));
+      });
+  };
+
+  // facebookLogin = () => {
+  //   this.fbLoading = true;
+
+  //   const apiLogin = (accessToken: string) => {
+  //     agent.Account.fbLogin(accessToken)
+  //       .then((user) => {
+  //         store.commonStore.setToken(user.token);
+  //         this.startRefreshTokenTimer(user);
+
+  //         runInAction(() => {
+  //           this.user = user;
+  //           this.fbLoading = false;
+  //         });
+
+  //         router.push("/events");
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         runInAction(() => (this.fbLoading = false));
+  //       });
+  //   };
+
+  //   if (this.fbAccessToken) {
+  //     apiLogin(this.fbAccessToken);
+  //   } else {
+  //     window.FB.login(
+  //       (response) => {
+  //         apiLogin(response.authResponse.accessToken);
+  //       },
+  //       { scope: "public_profile,email" }
+  //     );
+  //   }
+  // };
 
   refreshToken = async () => {
     this.stopRefreshTokenTimer();
