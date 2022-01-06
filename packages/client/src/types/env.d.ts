@@ -4,5 +4,6 @@ declare namespace NodeJS {
     FACEBOOK_ID: string;
     FACEBOOK_SECRET: string;
     JWT_SECRET: string;
+    NEXTAUTH_URL: string;
   }
 }

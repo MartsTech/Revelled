@@ -37,6 +37,7 @@ const Button: FC<ButtonProps> = ({
   loading = false,
   icon,
   ref,
+  onClick,
   ...props
 }) => {
   return (
@@ -45,6 +46,10 @@ const Button: FC<ButtonProps> = ({
       color={color}
       size={size}
       data-testid="button"
+      onClick={(e) => {
+        e.preventDefault();
+        typeof onClick === "function" && onClick(e);
+      }}
       {...props}
     >
       <StyledContent>

@@ -11,13 +11,13 @@
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> 
+        public AccountController(UserManager<User> userManager, SignInManager<User>
             signInManager, TokenService tokenService, EmailSender emailSender, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
-            _emailSender  = emailSender;
+            _emailSender = emailSender;
             _config = config;
             _httpClient = new HttpClient
             {

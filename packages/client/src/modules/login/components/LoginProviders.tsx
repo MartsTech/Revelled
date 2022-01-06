@@ -6,11 +6,11 @@ import Breakpoints from "styles/Breakpoints";
 import { AuthProviders } from "types/auth";
 import LoginButton from "./LoginButton";
 
-interface LoginMethodsProps {
+interface LoginProvidersProps {
   providers: AuthProviders;
 }
 
-const LoginMethods: FC<LoginMethodsProps> = ({ providers }) => {
+const LoginMethods: FC<LoginProvidersProps> = ({ providers }) => {
   const { facebookLogin } = useStore().userStore;
 
   return (

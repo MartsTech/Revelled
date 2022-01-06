@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
 import { AuthProviders } from "types/auth";
 import LoginLinks from "./components/LoginLinks";
-import LoginMethods from "./components/LoginMethods";
+import LoginProviders from "./components/LoginProviders";
 import LoginTerms from "./components/LoginTerms";
 
 interface LoginProps {
@@ -20,7 +20,7 @@ const Login: FC<LoginProps> = ({ providers }) => {
       </StyledLogoContainer>
       <StyledMain>
         <LoginTerms />
-        <LoginMethods providers={providers} />
+        <LoginProviders providers={providers} />
       </StyledMain>
       <StyledFooter>
         <StyledPlaceholder>

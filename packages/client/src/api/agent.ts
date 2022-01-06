@@ -13,7 +13,7 @@ const sleep = (delay: number) => {
   });
 };
 
-axios.defaults.baseURL = process.env.NEXT_APP_API_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 axios.interceptors.request.use((config) => {
   const token = store.commonStore.token;
@@ -81,7 +81,7 @@ axios.interceptors.response.use(
         break;
       }
       case 404: {
-        // router.push("/not-found");
+        router.push("/not-found");
         break;
       }
       case 500: {
