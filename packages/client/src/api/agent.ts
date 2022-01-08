@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { toast } from "react-toastify";
 import { PaginatedResult } from "types/pagination";
 import { Photo, Profile, UserEvent } from "types/profile";
 import { User, UserFormValues } from "types/user";
@@ -64,7 +63,7 @@ axios.interceptors.response.use(
           }
           throw modalStateErrors.flat();
         } else {
-          toast.error(data);
+          console.error(data);
         }
         break;
       }
@@ -76,7 +75,7 @@ axios.interceptors.response.use(
           )
         ) {
           store.userStore.logout();
-          toast.error("Session expired - please login again");
+          console.error("Session expired - please login again");
         }
         break;
       }

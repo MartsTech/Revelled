@@ -1,9 +1,13 @@
 import Search from "components/search";
 import Sidebar from "components/sidebar";
+import { observer } from "mobx-react-lite";
+import { useStore } from "stores/store";
 import styled from "styled-components";
 import FeedHeader from "./components/FeedHeader";
 
 const Dashboard = () => {
+  const { user } = useStore().userStore;
+
   return (
     <StyledContainer>
       <Sidebar />
@@ -11,13 +15,14 @@ const Dashboard = () => {
         <Search />
         <StyledFeedContainer>
           <FeedHeader />
+          <div>{user?.displayName}</div>
         </StyledFeedContainer>
       </StyledMain>
     </StyledContainer>
   );
 };
 
-export default Dashboard;
+export default observer(Dashboard);
 
 const StyledContainer = styled.div`
   display: flex;

@@ -4,7 +4,6 @@ import { store, StoreContext } from "stores/store";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "styles/Globals";
 import Theme from "styles/Theme";
-import "react-toastify/dist/ReactToastify.min.css";
 import { SessionProvider } from "next-auth/react";
 
 const App = ({ Component, pageProps }: AppProps) => {

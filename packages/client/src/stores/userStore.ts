@@ -22,8 +22,23 @@ class UserStore {
     reaction(
       () => this.fbAccessToken,
       (token) => {
-        if (token && !this.isLoggedIn) {
+        const user = JSON.parse(window.localStorage.getItem("user") as string);
+
+        if (user) {
+          this.user = user;
+        } else if (token && !this.isLoggedIn) {
           this.apiLogin(token);
+        }
+      }
+    );
+
+    reaction(
+      () => this.user,
+      (user) => {
+        if (user) {
+          window.localStorage.setItem("user", JSON.stringify(user));
+        } else {
+          window.localStorage.removeItem("user");
         }
       }
     );
@@ -73,20 +88,6 @@ class UserStore {
     this.user = null;
     signOut();
     router.push("/");
-  };
-
-  getUser = async () => {
-    try {
-      const user = await agent.Account.current();
-
-      store.commonStore.setToken(user.token);
-
-      runInAction(() => (this.user = user));
-
-      this.startRefreshTokenTimer(user);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   setImage = (image: string) => {
