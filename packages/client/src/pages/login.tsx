@@ -4,11 +4,11 @@ import type { NextPage } from "next";
 import { getProviders } from "next-auth/react";
 import type { AuthProviders } from "types/auth";
 
-interface HomePageProps {
+interface LoginPageProps {
   providers: AuthProviders;
 }
 
-const HomePage: NextPage<HomePageProps> = ({ providers }) => {
+const LoginPage: NextPage<LoginPageProps> = ({ providers }) => {
   return (
     <Page title={"Login | Revelled"}>
       <Login providers={providers} />
@@ -16,7 +16,7 @@ const HomePage: NextPage<HomePageProps> = ({ providers }) => {
   );
 };
 
-export default HomePage;
+export default LoginPage;
 
 export const getServerSideProps = async () => {
   const providers = await getProviders();

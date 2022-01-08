@@ -1,9 +1,9 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "api/agent";
-import { User, UserFormValues } from "types/user";
+import { User } from "types/user";
 import { store } from "./store";
 import router from "next/router";
-import { getSession, signIn } from "next-auth/react";
+import { getSession, signIn, signOut } from "next-auth/react";
 
 class UserStore {
   user: User | null = null;
@@ -33,91 +33,37 @@ class UserStore {
     return !!this.user;
   }
 
-  facebookLogin = (id: string) => {
+  facebookLogin = async (id: string) => {
     this.fbLoading = true;
 
     if (this.fbAccessToken) {
-      this.apiLogin(this.fbAccessToken);
-    } else {
-      signIn(id, { redirect: false }).then(() => {
-        getSession().then((session) => {
-          if (session) {
-            // @ts-ignore
-            this.fbAccessToken = session.user.accessToken;
-          }
-        });
-      });
+      return this.apiLogin(this.fbAccessToken);
+    }
+
+    await signIn(id, { redirect: false });
+
+    const session = await getSession();
+
+    if (session) {
+      // @ts-ignore
+      this.fbAccessToken = session.user.accessToken;
     }
   };
 
-  private apiLogin = (accessToken: string) => {
-    console.log("here");
-    agent.Account.fbLogin(accessToken)
-      .then((user) => {
-        console.log(user);
-        store.commonStore.setToken(user.token);
-        this.startRefreshTokenTimer(user);
-
-        runInAction(() => {
-          this.user = user;
-          this.fbLoading = false;
-        });
-
-        router.push("/dash");
-      })
-      .catch((error) => {
-        console.log(error);
-        runInAction(() => (this.fbLoading = false));
-      });
-  };
-
-  // facebookLogin = () => {
-  //   this.fbLoading = true;
-
-  //   const apiLogin = (accessToken: string) => {
-  //     agent.Account.fbLogin(accessToken)
-  //       .then((user) => {
-  //         store.commonStore.setToken(user.token);
-  //         this.startRefreshTokenTimer(user);
-
-  //         runInAction(() => {
-  //           this.user = user;
-  //           this.fbLoading = false;
-  //         });
-
-  //         router.push("/events");
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         runInAction(() => (this.fbLoading = false));
-  //       });
-  //   };
-
-  //   if (this.fbAccessToken) {
-  //     apiLogin(this.fbAccessToken);
-  //   } else {
-  //     window.FB.login(
-  //       (response) => {
-  //         apiLogin(response.authResponse.accessToken);
-  //       },
-  //       { scope: "public_profile,email" }
-  //     );
-  //   }
-  // };
-
-  login = async (creds: UserFormValues) => {
+  private apiLogin = async (accessToken: string) => {
     try {
-      const user = await agent.Account.login(creds);
+      const user = await agent.Account.fbLogin(accessToken);
 
       store.commonStore.setToken(user.token);
       this.startRefreshTokenTimer(user);
 
-      runInAction(() => (this.user = user));
-      router.push("/events");
-
-      store.modalStore.closeModal();
+      runInAction(() => {
+        this.user = user;
+        this.fbLoading = false;
+      });
     } catch (error) {
-      throw error;
+      console.error(error);
+      runInAction(() => (this.fbLoading = false));
     }
   };
 
@@ -125,6 +71,7 @@ class UserStore {
     store.commonStore.setToken(null);
     window.localStorage.removeItem("jwt");
     this.user = null;
+    signOut();
     router.push("/");
   };
 
@@ -142,16 +89,6 @@ class UserStore {
     }
   };
 
-  register = async (creds: UserFormValues) => {
-    try {
-      await agent.Account.register(creds);
-      router.push(`/account/registerSuccess?email=${creds.email}`);
-      store.modalStore.closeModal();
-    } catch (error) {
-      throw error;
-    }
-  };
-
   setImage = (image: string) => {
     if (this.user) {
       this.user.image = image;
@@ -163,14 +100,6 @@ class UserStore {
       this.user.displayName = name;
     }
   };
-
-  // getFacebookLoginStatus = async () => {
-  //   window.FB.getLoginStatus((response) => {
-  //     if (response.status === "connected") {
-  //       this.fbAccessToken = response.authResponse.accessToken;
-  //     }
-  //   });
-  // };
 
   refreshToken = async () => {
     this.stopRefreshTokenTimer();

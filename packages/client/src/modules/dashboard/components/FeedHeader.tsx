@@ -1,11 +1,14 @@
 import Button from "components/button";
+import { useStore } from "stores/store";
 import styled from "styled-components";
 
 const FeedHeader = () => {
+  const { logout } = useStore().userStore;
+
   return (
     <StyledContainer>
       <StyledTitle>Your Feed</StyledTitle>
-      <StyledButton>New Event</StyledButton>
+      <StyledButton onClick={logout}>New Event</StyledButton>
     </StyledContainer>
   );
 };
