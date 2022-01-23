@@ -96,11 +96,14 @@ axios.interceptors.response.use(
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
-  get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+  get: <T>(url: string) =>
+    axios.get<T>(url, { withCredentials: true }).then(responseBody),
   post: <T>(url: string, body: {}) =>
-    axios.post<T>(url, body).then(responseBody),
-  put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
-  del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+    axios.post<T>(url, body, { withCredentials: true }).then(responseBody),
+  put: <T>(url: string, body: {}) =>
+    axios.put<T>(url, body, { withCredentials: true }).then(responseBody),
+  del: <T>(url: string) =>
+    axios.delete<T>(url, { withCredentials: true }).then(responseBody),
 };
 
 const Events = {

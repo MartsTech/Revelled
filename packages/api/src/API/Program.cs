@@ -11,10 +11,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseCookiePolicy(new CookiePolicyOptions
-{
-    MinimumSameSitePolicy = SameSiteMode.Lax,
-});
 
 app.UseXContentTypeOptions();
 app.UseReferrerPolicy(opt => opt.NoReferrer());
@@ -51,9 +47,6 @@ else
 
 // app.UseHttpsRedirection();
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
@@ -61,7 +54,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ChatHub>("/chat");
-app.MapFallbackToController("Index", "Fallback");
 
 // Seed Data
 

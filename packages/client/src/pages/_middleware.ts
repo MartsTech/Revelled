@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
 export const middleware = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
@@ -8,16 +9,33 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.next();
   }
 
-  const cookie = typeof req.cookies[process.env.USER_TOKEN] !== "undefined";
+  const token = req.cookies[process.env.USER_TOKEN];
 
-  // only allowed when no auth
-  if (cookie && pathname.includes("/login")) {
-    return NextResponse.redirect("/dash");
-  }
+  try {
+    const verified = await jwtVerify(
+      token,
+      new TextEncoder().encode(process.env.JWT_SECRET)
+    );
 
-  // redirect to login when no auth
-  if (!cookie && pathname !== "/login") {
-    return NextResponse.rewrite("/login");
+    // if already on login page
+    if (!verified && pathname.includes("/login")) {
+      return NextResponse.next();
+    }
+
+    // redirect to login when no auth
+    if (!verified) {
+      return NextResponse.redirect("/login");
+    }
+
+    // only allowed when no auth
+    if (pathname.includes("/login")) {
+      return NextResponse.redirect("/dash");
+    }
+  } catch (err) {
+    if (pathname.includes("/login")) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect("/login");
   }
 
   return NextResponse.next();

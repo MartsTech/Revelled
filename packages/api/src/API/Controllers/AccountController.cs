@@ -6,19 +6,17 @@
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        //private readonly TokenService _tokenService;
-        private CookieService _cookieService;
+        private readonly TokenService _tokenService;
         private readonly EmailSender _emailSender;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
 
         public AccountController(UserManager<User> userManager, SignInManager<User>
-            signInManager, CookieService cookieService, EmailSender emailSender, IConfiguration config)
+            signInManager, TokenService tokenService, EmailSender emailSender, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            //_tokenService = tokenService;
-            _cookieService = cookieService;
+            _tokenService = tokenService;
             _emailSender = emailSender;
             _config = config;
             _httpClient = new HttpClient
@@ -59,7 +57,7 @@
 
             if (user != null)
             {
-                return await CreateUserDto(user);
+                return CreateUserDto(user);
             }
 
             user = new User
@@ -87,8 +85,8 @@
                 return BadRequest("Problem creating user account");
             }
 
-            //await SetRefreshToken(user);
-            return await CreateUserDto(user);
+            await SetRefreshToken(user);
+            return CreateUserDto(user);
         }
 
         [AllowAnonymous]
@@ -116,9 +114,9 @@
                 return Unauthorized("Invalid password.");
             }
 
-            //await SetRefreshToken(user);
+            await SetRefreshToken(user);
 
-            return await CreateUserDto(user);
+            return CreateUserDto(user);
         }
 
         [AllowAnonymous]
@@ -165,12 +163,6 @@
             return Ok("Registration success - please verify email");
         }
 
-        [HttpPost("logout")]
-        public async Task Logout()
-        {
-            // Clear the existing external cookie
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        }
 
         [AllowAnonymous]
         [HttpPost("verifyEmail")]
@@ -223,31 +215,13 @@
             return Ok("Email verification link resent");
         }
 
-        //[Authorize]
-        //[HttpPost("refreshToken")]
-        //public async Task<ActionResult<UserDto>> RefreshToken()
-        //{
-        //    var refreshToken = Request.Cookies["refreshToken"];
-
-        //    var user = await _userManager.Users
-        //        .Include(r => r.RefreshTokens)
-        //        .Include(p => p.Photos)
-        //        .FirstOrDefaultAsync(x => x.UserName == User.FindFirstValue(ClaimTypes.Name));
-
-        //    if (user == null)
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
-
-        //    if (oldToken != null && !oldToken.IsActive)
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    return await CreateUserDto(user);
-        //}
+        [Authorize]
+        [HttpPost("logout")]
+        public void Logout()
+        {
+            Response.Cookies.Delete("accessToken");
+            Response.Cookies.Delete("refreshToken");
+        }
 
         [Authorize]
         [HttpGet]
@@ -257,32 +231,74 @@
                 .Include(x => x.Photos)
                 .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
-            return await CreateUserDto(user);
+            return CreateUserDto(user);
         }
 
-        //private async Task SetRefreshToken(User user)
-        //{
-        //    var refreshToken = ""; /*_tokenService.GenerateRefreshToken();*/
-
-        //    user.RefreshTokens.Add(refreshToken);
-
-        //    await _userManager.UpdateAsync(user);
-
-        //    var cookieOptions = new CookieOptions
-        //    {
-        //        HttpOnly = true,
-        //        Expires = DateTime.UtcNow.AddDays(7)
-        //    };
-
-        //    Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
-        //}
-
-        private async Task<UserDto> CreateUserDto(User user)
+        [Authorize]
+        [HttpPost("refreshToken")]
+        public async Task<ActionResult<UserDto>> RefreshToken()
         {
-            await _cookieService.CreateCookie(user);
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            var user = await _userManager.Users
+                .Include(r => r.RefreshTokens)
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.UserName == User.FindFirstValue(ClaimTypes.Name));
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
+
+            if (oldToken != null && !oldToken.IsActive)
+            {
+                return Unauthorized();
+            }
+
+            return CreateUserDto(user);
+        }
+
+
+        private async Task SetRefreshToken(User user)
+        {
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshTokens.Add(refreshToken);
+
+            await _userManager.UpdateAsync(user);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7),
+                IsEssential = true,
+                SameSite = SameSiteMode.Strict,
+                Secure = true
+            };
+
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+        }
+
+        private UserDto CreateUserDto(User user)
+        {
+            var token = _tokenService.CreateToken(user);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7),
+                IsEssential = true,
+                SameSite = SameSiteMode.Strict,
+                Secure = true
+            };
+
+            Response.Cookies.Append("accessToken", token, cookieOptions);
 
             return new UserDto
             {
+                Token = token,
                 Username = user.UserName,
                 DisplayName = user.DisplayName,
                 Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url
