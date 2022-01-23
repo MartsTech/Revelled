@@ -13,37 +13,40 @@
             .AddSignInManager<SignInManager<User>>()
             .AddDefaultTokenProviders();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWTSettings:TokenKey"]));
+            //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWTSettings:TokenKey"]));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt =>
-                {
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                    opt.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var accessToken = context.Request.Query["access_token"];
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
 
-                            var path = context.HttpContext.Request.Path;
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(opt =>
+            //    {
+            //        opt.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = key,
+            //            ValidateIssuer = false,
+            //            ValidateAudience = false,
+            //            ValidateLifetime = true,
+            //            ClockSkew = TimeSpan.Zero
+            //        };
+            //        opt.Events = new JwtBearerEvents
+            //        {
+            //            OnMessageReceived = context =>
+            //            {
+            //                var accessToken = context.Request.Query["access_token"];
 
-                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
-                            {
-                                context.Token = accessToken;
-                            }
+            //                var path = context.HttpContext.Request.Path;
 
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
+            //                if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+            //                {
+            //                    context.Token = accessToken;
+            //                }
+
+            //                return Task.CompletedTask;
+            //            }
+            //        };
+            //    });
 
             services.AddAuthorization(opt =>
             {
@@ -53,7 +56,8 @@
                 });
             });
             services.AddTransient<IAuthorizationHandler, IsEventHostRequirementHandler>();
-            services.AddScoped<TokenService>();
+            //services.AddScoped<TokenService>();
+            services.AddScoped<CookieService>();
 
             return services;
         }

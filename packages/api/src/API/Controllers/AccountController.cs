@@ -6,17 +6,19 @@
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly TokenService _tokenService;
+        //private readonly TokenService _tokenService;
+        private CookieService _cookieService;
         private readonly EmailSender _emailSender;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
 
         public AccountController(UserManager<User> userManager, SignInManager<User>
-            signInManager, TokenService tokenService, EmailSender emailSender, IConfiguration config)
+            signInManager, CookieService cookieService, EmailSender emailSender, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _tokenService = tokenService;
+            //_tokenService = tokenService;
+            _cookieService = cookieService;
             _emailSender = emailSender;
             _config = config;
             _httpClient = new HttpClient
@@ -57,7 +59,7 @@
 
             if (user != null)
             {
-                return CreateUserDto(user);
+                return await CreateUserDto(user);
             }
 
             user = new User
@@ -85,8 +87,8 @@
                 return BadRequest("Problem creating user account");
             }
 
-            await SetRefreshToken(user);
-            return CreateUserDto(user);
+            //await SetRefreshToken(user);
+            return await CreateUserDto(user);
         }
 
         [AllowAnonymous]
@@ -114,9 +116,9 @@
                 return Unauthorized("Invalid password.");
             }
 
-            await SetRefreshToken(user);
+            //await SetRefreshToken(user);
 
-            return CreateUserDto(user);
+            return await CreateUserDto(user);
         }
 
         [AllowAnonymous]
@@ -161,6 +163,13 @@
             await _emailSender.SendEmailAsync(user.Email, "Please verify email", message);
 
             return Ok("Registration success - please verify email");
+        }
+
+        [HttpPost("logout")]
+        public async Task Logout()
+        {
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         [AllowAnonymous]
@@ -214,31 +223,31 @@
             return Ok("Email verification link resent");
         }
 
-        [Authorize]
-        [HttpPost("refreshToken")]
-        public async Task<ActionResult<UserDto>> RefreshToken()
-        {
-            var refreshToken = Request.Cookies["refreshToken"];
+        //[Authorize]
+        //[HttpPost("refreshToken")]
+        //public async Task<ActionResult<UserDto>> RefreshToken()
+        //{
+        //    var refreshToken = Request.Cookies["refreshToken"];
 
-            var user = await _userManager.Users
-                .Include(r => r.RefreshTokens)
-                .Include(p => p.Photos)
-                .FirstOrDefaultAsync(x => x.UserName == User.FindFirstValue(ClaimTypes.Name));
+        //    var user = await _userManager.Users
+        //        .Include(r => r.RefreshTokens)
+        //        .Include(p => p.Photos)
+        //        .FirstOrDefaultAsync(x => x.UserName == User.FindFirstValue(ClaimTypes.Name));
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
+        //    if (user == null)
+        //    {
+        //        return Unauthorized();
+        //    }
 
-            var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
+        //    var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
 
-            if (oldToken != null && !oldToken.IsActive)
-            {
-                return Unauthorized();
-            }
+        //    if (oldToken != null && !oldToken.IsActive)
+        //    {
+        //        return Unauthorized();
+        //    }
 
-            return CreateUserDto(user);
-        }
+        //    return await CreateUserDto(user);
+        //}
 
         [Authorize]
         [HttpGet]
@@ -248,31 +257,32 @@
                 .Include(x => x.Photos)
                 .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
-            return CreateUserDto(user);
+            return await CreateUserDto(user);
         }
 
-        private async Task SetRefreshToken(User user)
+        //private async Task SetRefreshToken(User user)
+        //{
+        //    var refreshToken = ""; /*_tokenService.GenerateRefreshToken();*/
+
+        //    user.RefreshTokens.Add(refreshToken);
+
+        //    await _userManager.UpdateAsync(user);
+
+        //    var cookieOptions = new CookieOptions
+        //    {
+        //        HttpOnly = true,
+        //        Expires = DateTime.UtcNow.AddDays(7)
+        //    };
+
+        //    Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+        //}
+
+        private async Task<UserDto> CreateUserDto(User user)
         {
-            var refreshToken = _tokenService.GenerateRefreshToken();
+            await _cookieService.CreateCookie(user);
 
-            user.RefreshTokens.Add(refreshToken);
-
-            await _userManager.UpdateAsync(user);
-
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7)
-            };
-
-            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
-        }
-
-        private UserDto CreateUserDto(User user)
-        {
             return new UserDto
             {
-                Token = _tokenService.CreateToken(user),
                 Username = user.UserName,
                 DisplayName = user.DisplayName,
                 Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url

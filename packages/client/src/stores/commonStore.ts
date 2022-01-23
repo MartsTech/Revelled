@@ -9,6 +9,10 @@ class CommonStore {
   constructor() {
     makeAutoObservable(this);
 
+    if (typeof window !== "undefined") {
+      this.token = window.localStorage.getItem("jwt");
+    }
+
     reaction(
       () => this.token,
       (token) => {

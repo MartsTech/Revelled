@@ -11,6 +11,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Lax,
+});
 
 app.UseXContentTypeOptions();
 app.UseReferrerPolicy(opt => opt.NoReferrer());
@@ -26,7 +30,7 @@ app.UseCspReportOnly(opt => opt
     .FormActions(s => s.Self())
     .FrameAncestors(s => s.Self())
     .ImageSources(s => s.Self().CustomSources(
-        "https://res.cloudinary.com", 
+        "https://res.cloudinary.com",
         "data:"
         ))
     .ScriptSources(s => s.Self().CustomSources(
@@ -47,6 +51,9 @@ else
 
 // app.UseHttpsRedirection();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
@@ -54,6 +61,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ChatHub>("/chat");
+app.MapFallbackToController("Index", "Fallback");
 
 // Seed Data
 

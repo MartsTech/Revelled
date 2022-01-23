@@ -1,17 +1,13 @@
 import Logo from "icons/Logo";
-import { FC } from "react";
+import { useStore } from "stores/store";
 import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
-import { AuthProviders } from "types/auth";
 import LoginLinks from "./components/LoginLinks";
-import LoginProviders from "./components/LoginProviders";
 import LoginTerms from "./components/LoginTerms";
 
-interface LoginProps {
-  providers: AuthProviders;
-}
+const Login = () => {
+  const { login } = useStore().userStore;
 
-const Login: FC<LoginProps> = ({ providers }) => {
   return (
     <StyledContainer>
       <StyledPlaceholder />
@@ -20,7 +16,11 @@ const Login: FC<LoginProps> = ({ providers }) => {
       </StyledLogoContainer>
       <StyledMain>
         <LoginTerms />
-        <LoginProviders providers={providers} />
+        <button
+          onClick={() => login({ email: "bob@test.com", password: "Pa$$w0rd" })}
+        >
+          Login
+        </button>
       </StyledMain>
       <StyledFooter>
         <StyledPlaceholder>

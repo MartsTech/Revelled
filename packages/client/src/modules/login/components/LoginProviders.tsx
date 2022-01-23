@@ -1,26 +1,15 @@
 import SvgSolidGitHub from "icons/SolidGitHub";
-import { FC } from "react";
-import { useStore } from "stores/store";
 import styled from "styled-components";
 import Breakpoints from "styles/Breakpoints";
-import { AuthProviders } from "types/auth";
 import LoginButton from "./LoginButton";
 
-interface LoginProvidersProps {
-  providers: AuthProviders;
-}
-
-const LoginMethods: FC<LoginProvidersProps> = ({ providers }) => {
-  const { facebookLogin } = useStore().userStore;
-
+const LoginMethods = () => {
   return (
     <StyledContainer>
-      {Object.values(providers).map(({ id, name }) => (
-        <LoginButton key={name} onClick={() => facebookLogin(id)}>
-          <SvgSolidGitHub width={20} height={20} />
-          <>Log in with {name}</>
-        </LoginButton>
-      ))}
+      <LoginButton>
+        <SvgSolidGitHub width={20} height={20} />
+        <>Log in with {name}</>
+      </LoginButton>
     </StyledContainer>
   );
 };

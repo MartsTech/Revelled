@@ -3,7 +3,7 @@ import { PaginatedResult } from "types/pagination";
 import { Photo, Profile, UserEvent } from "types/profile";
 import { User, UserFormValues } from "types/user";
 import router from "next/router";
-import { EventFormValues } from "types/event";
+import { Event, EventFormValues } from "types/event";
 import { store } from "stores/store";
 
 const sleep = (delay: number) => {
@@ -121,6 +121,7 @@ const Account = {
   login: (user: UserFormValues) => requests.post<User>("/account/login", user),
   register: (user: UserFormValues) =>
     requests.post<User>("/account/register", user),
+  logout: () => requests.post<void>("/account/logout", {}),
   fbLogin: (accessToken: string) =>
     requests.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {}),
   refreshToken: () => requests.post<User>("/account/refreshToken", {}),

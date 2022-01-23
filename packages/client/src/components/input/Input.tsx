@@ -1,11 +1,11 @@
 import { ComponentPropsWithoutRef, forwardRef } from "react";
 import styled, { css } from "styled-components";
-import { themeType } from "types/theme";
+import Theme from "styles/Theme";
 
 interface InputProps extends ComponentPropsWithoutRef<"input"> {
   error?: string;
   transparent?: boolean;
-  theme?: themeType;
+  theme?: typeof Theme;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
