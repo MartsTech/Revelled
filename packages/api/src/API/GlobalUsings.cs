@@ -17,7 +17,6 @@ global using Infrastructure.Photos;
 global using Infrastructure.Security;
 global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
-global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Mvc.Authorization;

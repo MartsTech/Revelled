@@ -12,6 +12,10 @@ class UserStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    if (typeof window !== "undefined" && window.localStorage.getItem("jwt")) {
+      this.getUser();
+    }
   }
 
   get isLoggedIn() {
@@ -34,7 +38,8 @@ class UserStore {
     await agent.Account.logout();
     store.commonStore.setToken(null);
     window.localStorage.removeItem("jwt");
-    this.user = null;
+    runInAction(() => (this.user = null));
+
     router.push("/login");
   };
 

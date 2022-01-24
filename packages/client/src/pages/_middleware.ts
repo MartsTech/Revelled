@@ -5,7 +5,7 @@ export const middleware = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
 
   // static
-  if (pathname.includes("/favicons")) {
+  if (pathname.includes("/favicons" || pathname.includes("/api/"))) {
     return NextResponse.next();
   }
 
