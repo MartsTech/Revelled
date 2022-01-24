@@ -386,7 +386,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 # API
-appsettings.json
+appsettings.Production.json
 
 # SQlite
 *.db

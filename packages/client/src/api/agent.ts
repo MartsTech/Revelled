@@ -12,7 +12,7 @@ const sleep = (delay: number) => {
   });
 };
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+axios.defaults.baseURL = "/api";
 
 axios.interceptors.request.use((config) => {
   const token = store.commonStore.token;
