@@ -17,7 +17,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch",
+    "test": "jest --watchAll",
     "test:ci": "jest --ci",
     "format": "prettier --write ./src",
     "check-format": "prettier --check ./src",
