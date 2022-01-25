@@ -3,11 +3,11 @@ sudo: required
 services:
   - docker
 
-before_install:
-  - docker build -t martstech/revelled-client-test -f ./packages/client/Dockerfile ./client
+# before_install:
+#   - docker build -t martstech/revelled-client-test -f ./packages/client/Dockerfile ./client
 
-script:
-  - docker run -e CI=true martstech/revelled-client-test yarn test-all
+# script:
+#   - docker run -e CI=true martstech/revelled-client-test yarn test-all
 
 after_success:
   - docker build -t martstech/revelled-client ./client
@@ -19,15 +19,14 @@ after_success:
   - docker push martstech/revelled-client
   - docker push martstech/revelled-api
   - docker push martstech/revelled-nginx
-
-deploy:
-  provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "revelled"
-  env: "Revelled-env"
-  bucket_name: "elasticbeanstalk-us-east-2-170634152272"
-  bucket_path: "revelled"
-  on:
-    branch: main
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-east-2"
+#   app: "revelled"
+#   env: "Revelled-env"
+#   bucket_name: "elasticbeanstalk-us-east-2-170634152272"
+#   bucket_path: "revelled"
+#   on:
+#     branch: main
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_KEY
