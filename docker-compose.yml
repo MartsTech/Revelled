@@ -1,0 +1,22 @@
+version: "3"
+services:
+  client:
+    image: "martstech/revelled-client"
+    mem_limit: 128m
+    hostname: client
+  api:
+    image: "martstech/revelled-api"
+    mem_limit: 128m
+    hostname: api
+    environment:
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+  nginx:
+    image: "martstech/revelled-nginx"
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - "80:80"
