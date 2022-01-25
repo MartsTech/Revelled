@@ -1,0 +1,33 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t martstech/revelled -f ./packages/client/Dockerfile ./client
+
+script:
+  - docker run -e CI=true martstech/revelled yarn test-all
+
+after_success:
+  - docker build -t martstech/revelled-client ./client
+  - docker build -t martstech/revelled-api ./api
+  - docker build -t martstech/revelled-nginx ./nginx
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push martstech/revelled-client
+  - docker push martstech/revelled-api
+  - docker push martstech/revelled-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "revelled"
+  env: "Revelled-env"
+  bucket_name: "elasticbeanstalk-us-east-2-170634152272"
+  bucket_path: "revelled"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
