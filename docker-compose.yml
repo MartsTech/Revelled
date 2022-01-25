@@ -1,8 +1,39 @@
 version: "3"
 services:
-  web:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+  nginx:
+    restart: always
     build:
-      context: .
       dockerfile: Dockerfile
+      context: ./packages/nginx
     ports:
-      - "80:80"
+      - "3000:80"
+    depends_on:
+      - api
+      - client
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./packages/api
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - PG_USER=postgres
+      - PG_HOST=postgres
+      - PG_DATABASE=postgres
+      - PG_PASSWORD=postgres_password
+      - PG_PORT=5432
+    depends_on:
+      - postgres
+  client:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile
+      context: ./packages/client
+    volumes:
+      - /app/node_modules
+      - ./packages/client:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
