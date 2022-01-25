@@ -19,14 +19,14 @@ after_success:
   - docker push martstech/revelled-client
   - docker push martstech/revelled-api
   - docker push martstech/revelled-nginx
-# deploy:
-#   provider: elasticbeanstalk
-#   region: "us-east-2"
-#   app: "revelled"
-#   env: "Revelled-env"
-#   bucket_name: "elasticbeanstalk-us-east-2-170634152272"
-#   bucket_path: "revelled"
-#   on:
-#     branch: main
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key: $AWS_SECRET_KEY
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "revelled"
+  env: "Revelled-env"
+  bucket_name: "elasticbeanstalk-us-east-2-170634152272"
+  bucket_path: "revelled"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
