@@ -9,7 +9,8 @@ export const middleware = async (req: NextRequest) => {
     pathname.includes("/favicons") ||
     pathname.includes("/sw") ||
     pathname.includes("/workbox") ||
-    pathname.includes("/worker")
+    pathname.includes("/worker") ||
+    pathname.includes("/_next")
   ) {
     return NextResponse.next();
   }
