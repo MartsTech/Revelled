@@ -1,7 +1,7 @@
 ﻿namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
