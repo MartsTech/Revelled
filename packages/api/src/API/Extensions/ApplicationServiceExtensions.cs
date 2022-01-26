@@ -18,16 +18,18 @@
                 {
                     var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-                    var pgDb = Environment.GetEnvironmentVariable("PG_DATABASE");
-                    var pgUser = Environment.GetEnvironmentVariable("PG_USER");
-                    var pgPass = Environment.GetEnvironmentVariable("PG_PASSWORD");
-                    var pgHost = Environment.GetEnvironmentVariable("PG_HOST");
-                    var pgPort = Environment.GetEnvironmentVariable("PG_PORT");
+                    var mysqlHost = Environment.GetEnvironmentVariable("MYSQL_HOST");
+                    var mysqlPort = Environment.GetEnvironmentVariable("MYSQL_PORT");
+                    var mysqlUser = Environment.GetEnvironmentVariable("MYSQL_USER");
+                    var mysqlPass = Environment.GetEnvironmentVariable("MYSQL_PASSWORD");
+                    var mysqlDb = Environment.GetEnvironmentVariable("MYSQL_DATABASE");
 
-                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
+                    connStr = $"Server={mysqlHost};Port={mysqlPort};User Id={mysqlUser};Password={mysqlPass};Database={mysqlDb};";
                 }
 
-                opt.UseNpgsql(connStr);
+                var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
+
+                opt.UseMySql(connStr, serverVersion);
             });
             services.AddCors(opt =>
             {

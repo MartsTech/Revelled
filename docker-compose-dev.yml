@@ -1,9 +1,12 @@
 version: "3"
 services:
-  postgres:
-    image: "postgres:latest"
+  mysql:
+    image: "mysql:latest"
     environment:
-      - POSTGRES_PASSWORD=postgres_password
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
   nginx:
     restart: always
     build:
@@ -20,13 +23,13 @@ services:
       context: ./packages/api
     environment:
       - CHOKIDAR_USEPOLLING=true
-      - PG_USER=postgres
-      - PG_HOST=postgres
-      - PG_DATABASE=postgres
-      - PG_PASSWORD=postgres_password
-      - PG_PORT=5432
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=root
     depends_on:
-      - postgres
+      - mysql
   client:
     stdin_open: true
     build:
