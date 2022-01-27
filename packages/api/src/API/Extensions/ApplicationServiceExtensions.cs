@@ -10,7 +10,7 @@
 
                 string connStr;
 
-                if (env == "Development")
+                if (true)
                 {
                     connStr = config.GetConnectionString("DefaultConnection");
                 }
@@ -27,20 +27,20 @@
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 23));
 
-                opt.UseMySql(connStr, serverVersion);
+                opt.UseSqlite(connStr);
             });
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                        .WithExposedHeaders("WWW-Authenticate", "Pagination")
-                        .WithOrigins("http://localhost:3000");
-                });
-            });
+            //services.AddCors(opt =>
+            //{
+            //    opt.AddPolicy("CorsPolicy", policy =>
+            //    {
+            //        policy
+            //            .AllowAnyMethod()
+            //            .AllowAnyHeader()
+            //            .AllowCredentials()
+            //            .WithExposedHeaders("WWW-Authenticate", "Pagination")
+            //            .WithOrigins("http://localhost:3000");
+            //    });
+            //});
             services.AddMediatR(typeof(EventList.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<IUserAccessor, UserAccessor>();
