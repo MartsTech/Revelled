@@ -27,8 +27,6 @@ services:
       - MYSQL_PASSWORD=user_password
       - MYSQL_DATABASE=revelled_db
       - MYSQL_PORT=3306
-    depends_on:
-      - mysql
   client:
     stdin_open: true
     build:
