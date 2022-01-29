@@ -34,8 +34,6 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./packages/client
-    environment:
-      - NODE_ENV=development
     volumes:
       - /app/node_modules
       - ./packages/client:/app
