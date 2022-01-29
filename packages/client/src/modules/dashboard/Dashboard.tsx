@@ -1,13 +1,10 @@
 import Search from "components/search";
 import Sidebar from "components/sidebar";
-import { observer } from "mobx-react-lite";
-import { useStore } from "stores/store";
 import styled from "styled-components";
+import FeedList from "./components/FeedList";
 import FeedHeader from "./components/FeedHeader";
 
 const Dashboard = () => {
-  const { user } = useStore().userStore;
-
   return (
     <StyledContainer>
       <Sidebar />
@@ -15,14 +12,14 @@ const Dashboard = () => {
         <Search />
         <StyledFeedContainer>
           <FeedHeader />
-          <div>{user?.displayName}</div>
+          <FeedList />
         </StyledFeedContainer>
       </StyledMain>
     </StyledContainer>
   );
 };
 
-export default observer(Dashboard);
+export default Dashboard;
 
 const StyledContainer = styled.div`
   display: flex;
@@ -35,4 +32,16 @@ const StyledMain = styled.main`
   flex-direction: column;
 `;
 
-const StyledFeedContainer = styled.div``;
+const StyledFeedContainer = styled.div`
+  flex: 1;
+  overflow: scroll;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+`;

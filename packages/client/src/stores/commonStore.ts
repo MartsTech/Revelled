@@ -1,5 +1,5 @@
 import { makeAutoObservable, reaction } from "mobx";
-import { ServerError } from "types/serverError";
+import type { ServerError } from "types/serverError";
 
 class CommonStore {
   error: ServerError | null = null;

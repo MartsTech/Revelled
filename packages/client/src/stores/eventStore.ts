@@ -90,7 +90,11 @@ class EventStore {
     );
   }
 
-  loadEvents = async () => {
+  loadEvents = async (next: boolean = false) => {
+    if (!next && this.eventRegistry.size !== 0) {
+      return;
+    }
+
     this.loadingInitial = true;
     try {
       const result = await agent.Events.list(this.axiosParams);

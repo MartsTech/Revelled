@@ -7,10 +7,8 @@ export const middleware = async (req: NextRequest) => {
   // static
   if (
     pathname.includes("/favicons") ||
-    pathname.includes("/sw") ||
-    pathname.includes("/workbox") ||
-    pathname.includes("/worker") ||
-    pathname.includes("/_next")
+    pathname.includes("/not-found") ||
+    pathname.includes("/server-error")
   ) {
     return NextResponse.next();
   }
