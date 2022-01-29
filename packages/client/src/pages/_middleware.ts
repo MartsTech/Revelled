@@ -15,12 +15,12 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.next();
   }
 
-  const token = req.cookies[process.env.USER_TOKEN];
+  const token = req.cookies["accessToken"];
 
   try {
     const verified = await jwtVerify(
       token,
-      new TextEncoder().encode("super secret key")
+      new TextEncoder().encode(process.env.JWT_SECRET)
     );
 
     // if already on login page
