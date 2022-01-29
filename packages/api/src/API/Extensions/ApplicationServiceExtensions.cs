@@ -10,7 +10,7 @@
 
                 string connStr;
 
-                if (true)
+                if (env == "Development")
                 {
                     connStr = config.GetConnectionString("DefaultConnection");
                 }
@@ -27,7 +27,7 @@
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 23));
 
-                opt.UseSqlite(connStr);
+                opt.UseMySql(connStr, serverVersion);
             });
             //services.AddCors(opt =>
             //{
