@@ -6,12 +6,6 @@ import router from "next/router";
 import { Event, EventFormValues } from "types/event";
 import { store } from "stores/store";
 
-const sleep = (delay: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-};
-
 if (process.env.NODE_ENV !== "development") {
   axios.defaults.baseURL = "/api";
 } else {
@@ -31,11 +25,6 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(
   async (response) => {
-    // Mock Delay
-    if (process.env.NODE_ENV === "development") {
-      await sleep(1000);
-    }
-
     const pagination = response.headers["pagination"];
 
     if (pagination) {
