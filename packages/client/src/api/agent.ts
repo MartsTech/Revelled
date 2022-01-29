@@ -12,7 +12,11 @@ const sleep = (delay: number) => {
   });
 };
 
-axios.defaults.baseURL = "/api";
+if (process.env.NODE_ENV !== "development") {
+  axios.defaults.baseURL = "/api";
+} else {
+  axios.defaults.baseURL = "http://localhost:5000";
+}
 
 axios.interceptors.request.use((config) => {
   const token = store.commonStore.token;
