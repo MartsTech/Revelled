@@ -20,7 +20,7 @@ export const middleware = async (req: NextRequest) => {
   try {
     const verified = await jwtVerify(
       token,
-      new TextEncoder().encode(process.env.JWT_SECRET)
+      new TextEncoder().encode("super secret key")
     );
 
     // if already on login page
