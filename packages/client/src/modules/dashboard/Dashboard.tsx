@@ -3,6 +3,7 @@ import Sidebar from "components/sidebar";
 import styled from "styled-components";
 import FeedList from "./components/FeedList";
 import FeedHeader from "./components/FeedHeader";
+import Breakpoints from "styles/Breakpoints";
 
 const Dashboard = () => {
   return (
@@ -30,6 +31,11 @@ const StyledMain = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin-left: -20rem;
+
+  @media (${Breakpoints.portrait}) {
+    margin: 0;
+  }
 `;
 
 const StyledFeedContainer = styled.div`

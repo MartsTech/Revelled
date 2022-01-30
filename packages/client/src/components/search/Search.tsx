@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Breakpoints from "styles/Breakpoints";
 import SearchBar from "./components/SearchBar";
 import SearchOverlay from "./components/SearchOverlay";
 
@@ -15,5 +16,10 @@ export default Search;
 
 const StyledSearch = styled.div`
   position: relative;
-  margin: 1.5rem;
+  margin: 2rem;
+  margin-left: 4.5rem;
+
+  @media (${Breakpoints.portrait}) {
+    margin-left: 2rem;
+  }
 `;
