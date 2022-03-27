@@ -21,5 +21,10 @@ public class Photo : IPhoto
 
     public Profile? Profile { get; }
 
-    public bool IsMain { get; }
+    public bool IsMain { get; private set; }
+
+    public void SetMain(bool state)
+    {
+        IsMain = state;
+    }
 }

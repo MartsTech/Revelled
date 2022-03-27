@@ -5,7 +5,7 @@ using Persistence;
 
 public sealed class TestUserService : IUserService
 {
-    public string GetCurrentUserId()
+    public string GetCurrentExternalUserId()
     {
         return SeedData.DefaultUserId;
     }

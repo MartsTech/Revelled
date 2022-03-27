@@ -19,4 +19,9 @@ public sealed class Result<T>
         IsSuccess = false,
         Error = error
     };
+
+    public static Result<T> NotFound() => new()
+    {
+        IsSuccess = false
+    };
 }

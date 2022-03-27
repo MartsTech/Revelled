@@ -13,7 +13,7 @@ public sealed class UserService : IUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string GetCurrentUserId()
+    public string GetCurrentExternalUserId()
     {
         return _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
     }

@@ -7,4 +7,6 @@ public interface IPhoto
     PhotoId PhotoId { get; }
 
     ProfileId ProfileId { get; }
+
+    public void SetMain(bool state);
 }
