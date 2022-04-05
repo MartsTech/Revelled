@@ -24,7 +24,7 @@ public interface IEntityFactory
         ProfileId profileId, EventId eventId, bool isHost = false);
 
     Photo NewPhoto(
-        string id, string url, ProfileId profileId);
+        string id, string url, ProfileId profileId, bool isMain = false);
 
     Comment NewComment(
         string body, ProfileId profileId, EventId eventId);

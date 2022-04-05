@@ -6,4 +6,9 @@ public sealed class PhotosCollection : List<Photo>
     {
         return this.Any(x => x.IsMain);
     }
+
+    public Photo? GetMainPhoto()
+    {
+        return this.FirstOrDefault(x => x.IsMain);
+    }
 }
