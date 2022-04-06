@@ -11,7 +11,7 @@ public sealed class DataContext : DbContext
     {
     }
 
-    public DbSet<Event> Events { get; }
+    public DbSet<Event> Events { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -2,7 +2,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Application.UseCases.Photos.AddPhoto;
+using Application.UseCases.Events.CreateEvent;
 using FeatureFlags;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
@@ -56,7 +56,7 @@ public static class CustomControllersExtensions
           })
           .AddFluentValidation(config =>
           {
-              config.RegisterValidatorsFromAssemblyContaining<AddPhotoUseCase>();
+              config.RegisterValidatorsFromAssemblyContaining<CreateEventUseCase>();
           })
           .AddJsonOptions(opt =>
           {

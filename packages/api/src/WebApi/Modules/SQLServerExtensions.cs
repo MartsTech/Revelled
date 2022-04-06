@@ -8,6 +8,8 @@ using Domain;
 using Persistence.Factories;
 using Domain.Events;
 using Persistence.Repositories.Events;
+using Application.Services;
+using Infrastructure.DataAccess;
 
 public static class SQLServerExtensions
 {
@@ -50,7 +52,14 @@ public static class SQLServerExtensions
 
                 opt.UseMySql(connStr, serverVersion);
             });
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEventRepository, EventRepository>();
+        }
+        else
+        {
+            services.AddSingleton<DataContextFake, DataContextFake>();
+            services.AddScoped<IUnitOfWork, UnitOfWorkFake>();
+            services.AddScoped<IEventRepository, EventRepositoryFake>();
         }
 
         services.AddScoped<IEntityFactory, EntityFactory>();
