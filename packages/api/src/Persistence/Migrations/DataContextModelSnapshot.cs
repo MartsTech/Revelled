@@ -3,9 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
-
-#nullable disable
 
 namespace Persistence.Migrations
 {
@@ -16,147 +15,489 @@ namespace Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .UseIdentityByDefaultColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("Domain.Events.Event", b =>
+            modelBuilder.Entity("Domain.Activity", b =>
                 {
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("char(36)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("text");
 
                     b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("varchar(70)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Venue")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("Domain.ActivityAttendee", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ActivityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsHost")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("AppUserId", "ActivityId");
+
+                    b.HasIndex("ActivityId");
+
+                    b.ToTable("ActivityAttendees");
+                });
+
+            modelBuilder.Entity("Domain.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Domain.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<Guid?>("ActivityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Photo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Domain.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("Revoked")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("Domain.UserFollowing", b =>
+                {
+                    b.Property<string>("ObserverId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TargetId")
+                        .HasColumnType("text");
+
+                    b.HasKey("ObserverId", "TargetId");
+
+                    b.HasIndex("TargetId");
+
+                    b.ToTable("UserFollowings");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("text");
 
-                    b.HasKey("EventId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Event", (string)null);
+                    b.HasIndex("RoleId");
 
-                    b.HasData(
-                        new
-                        {
-                            EventId = new Guid("5bfabe3a-ef6e-497d-9b2d-664d7f9f19c3"),
-                            Category = "drinks",
-                            City = "London",
-                            Date = new DateTime(2022, 2, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7517),
-                            Description = "Event 2 months ago",
-                            Title = "Past Event 1",
-                            Venue = "Pub"
-                        },
-                        new
-                        {
-                            EventId = new Guid("cb99fa2e-3216-40eb-b0a0-99c05db1db0c"),
-                            Category = "culture",
-                            City = "Paris",
-                            Date = new DateTime(2022, 3, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7555),
-                            Description = "Event 1 month ago",
-                            Title = "Past Event 2",
-                            Venue = "Louvre"
-                        },
-                        new
-                        {
-                            EventId = new Guid("f2b25220-03b7-4fdb-8ddb-aaef7f0fbf9a"),
-                            Category = "culture",
-                            City = "London",
-                            Date = new DateTime(2022, 5, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7560),
-                            Description = "Event 1 month in the future",
-                            Title = "Future Event 1",
-                            Venue = "Natural History Museum"
-                        },
-                        new
-                        {
-                            EventId = new Guid("535b0387-c330-49df-8317-c2b304d1ee60"),
-                            Category = "music",
-                            City = "London",
-                            Date = new DateTime(2022, 6, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7563),
-                            Description = "Event 2 months in the future",
-                            Title = "Future Event 2",
-                            Venue = "02 Arena"
-                        },
-                        new
-                        {
-                            EventId = new Guid("f5f20ef4-54a0-46f0-8bb6-121255ff9d09"),
-                            Category = "drinks",
-                            City = "London",
-                            Date = new DateTime(2022, 7, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7567),
-                            Description = "Event 3 months in the future",
-                            Title = "Future Event 3",
-                            Venue = "Another pub"
-                        },
-                        new
-                        {
-                            EventId = new Guid("1e7d64d4-c5b1-4f8a-aca4-8f0438d5a1f6"),
-                            Category = "drinks",
-                            City = "London",
-                            Date = new DateTime(2022, 8, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7571),
-                            Description = "Event 4 months in the future",
-                            Title = "Future Event 4",
-                            Venue = "Yet another pub"
-                        },
-                        new
-                        {
-                            EventId = new Guid("bfeeb167-7fd0-4425-9d9a-17b75960a7f2"),
-                            Category = "drinks",
-                            City = "London",
-                            Date = new DateTime(2022, 9, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7575),
-                            Description = "Event 5 months in the future",
-                            Title = "Future Event 5",
-                            Venue = "Just another pub"
-                        },
-                        new
-                        {
-                            EventId = new Guid("6fc1b26a-84a1-4588-9894-a9ad4ddba2da"),
-                            Category = "music",
-                            City = "London",
-                            Date = new DateTime(2022, 10, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7578),
-                            Description = "Event 6 months in the future",
-                            Title = "Future Event 6",
-                            Venue = "Roundhouse Camden"
-                        },
-                        new
-                        {
-                            EventId = new Guid("94ab1324-0c42-4046-a985-82c95dce37b8"),
-                            Category = "travel",
-                            City = "London",
-                            Date = new DateTime(2022, 11, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7587),
-                            Description = "Event 7 months in the future",
-                            Title = "Future Event 7",
-                            Venue = "Somewhere on the Thames"
-                        },
-                        new
-                        {
-                            EventId = new Guid("92a26a4e-461a-47a8-b585-51b2e998bb75"),
-                            Category = "film",
-                            City = "London",
-                            Date = new DateTime(2022, 12, 5, 17, 34, 4, 432, DateTimeKind.Local).AddTicks(7591),
-                            Description = "Event 8 months in the future",
-                            Title = "Future Event 8",
-                            Venue = "Cinema"
-                        });
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Domain.ActivityAttendee", b =>
+                {
+                    b.HasOne("Domain.Activity", "Activity")
+                        .WithMany("Attendees")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("Activities")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Domain.Comment", b =>
+                {
+                    b.HasOne("Domain.Activity", "Activity")
+                        .WithMany("Comments")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Domain.Photo", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.RefreshToken", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Domain.UserFollowing", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Observer")
+                        .WithMany("Followings")
+                        .HasForeignKey("ObserverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "Target")
+                        .WithMany("Followers")
+                        .HasForeignKey("TargetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Observer");
+
+                    b.Navigation("Target");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Activity", b =>
+                {
+                    b.Navigation("Attendees");
+
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Domain.AppUser", b =>
+                {
+                    b.Navigation("Activities");
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("Followings");
+
+                    b.Navigation("Photos");
+
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

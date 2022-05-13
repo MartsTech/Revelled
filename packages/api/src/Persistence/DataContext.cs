@@ -1,29 +1,57 @@
-﻿namespace Persistence;
-
-using Domain.Events;
+using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public sealed class DataContext : DbContext
+namespace Persistence
 {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public DataContext(DbContextOptions options) : base(options)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public class DataContext : IdentityDbContext<AppUser>
     {
-    }
-
-    public DbSet<Event> Events { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        if (modelBuilder is null)
+        public DataContext(DbContextOptions options) : base(options)
         {
-            throw new ArgumentNullException(nameof(modelBuilder));
         }
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserFollowing> UserFollowings { get; set; }
 
-        SeedData.Seed(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ActivityAttendee>(x => x.HasKey(aa => new { aa.AppUserId, aa.ActivityId }));
+
+            builder.Entity<ActivityAttendee>()
+                .HasOne(u => u.AppUser)
+                .WithMany(a => a.Activities)
+                .HasForeignKey(aa => aa.AppUserId);
+
+            builder.Entity<ActivityAttendee>()
+                .HasOne(u => u.Activity)
+                .WithMany(a => a.Attendees)
+                .HasForeignKey(aa => aa.ActivityId);
+
+            builder.Entity<Comment>()
+                .HasOne(a => a.Activity)
+                .WithMany(c => c.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserFollowing>(b =>
+            {
+                b.HasKey(k => new { k.ObserverId, k.TargetId });
+
+                b.HasOne(o => o.Observer)
+                    .WithMany(f => f.Followings)
+                    .HasForeignKey(o => o.ObserverId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(o => o.Target)
+                    .WithMany(f => f.Followers)
+                    .HasForeignKey(o => o.TargetId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+            });
+        }
     }
 }
