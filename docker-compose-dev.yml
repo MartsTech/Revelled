@@ -1,0 +1,41 @@
+version: "3"
+services:
+  mysql:
+    image: "mysql:8.0.23"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_PASSWORD=user_password
+      - MYSQL_USER=revelled_user
+      - MYSQL_DATABASE=revelled_db
+    volumes:
+      - db_data:/var/lib/mysql
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./packages/nginx
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+      - client
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./packages/api
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=revelled_user
+      - MYSQL_PASSWORD=user_password
+      - MYSQL_DATABASE=revelled_db
+      - MYSQL_PORT=3306
+  client:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./packages/client
+    volumes:
+      - /app/node_modules
+      - ./packages/client:/app
+volumes:
+  db_data:

@@ -1,4 +1,4 @@
-(this["webpackJsonpclient-app"] = this["webpackJsonpclient-app"] || []).push([
+(this["webpackJsonpclient"] = this["webpackJsonpclient"] || []).push([
   [0],
   {
     313: function (e, t, n) {},
