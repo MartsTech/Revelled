@@ -1,0 +1,13 @@
+﻿global using Application.Interfaces;
+global using Application.Photos;
+global using CloudinaryDotNet.Actions;
+global using CloudinaryDotNet;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.Options;
+global using Persistence;
+global using SendGrid.Helpers.Mail;
+global using SendGrid;
+global using System.Security.Claims;

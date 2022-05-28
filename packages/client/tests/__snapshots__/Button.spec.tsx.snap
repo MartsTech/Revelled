@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button should match snapshot 1`] = `
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border: none;
+  color: var(--color-button-text);
+  font-size: 0.875rem;
+  font-weight: bold;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-transition-property: background-color,border-color,color,fill,stroke, opacity,box-shadow,-webkit-transform,filter,backdrop-filter;
+  -webkit-transition-property: background-color,border-color,color,fill,stroke, opacity,box-shadow,transform,filter,backdrop-filter;
+  transition-property: background-color,border-color,color,fill,stroke, opacity,box-shadow,transform,filter,backdrop-filter;
+  -webkit-transition-duration: 200ms;
+  transition-duration: 200ms;
+  -webkit-transition-timing-function: cubic-bezier(0.4,0,0.2,1);
+  transition-timing-function: cubic-bezier(0.4,0,0.2,1);
+  background-color: var(--color-accent);
+  padding: 0.625rem 2.5rem;
+  border-radius: 0.5rem;
+}
+
+.c1:focus {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.c1:disabled.c0:disabled.c0:disabled {
+  background-color: var(--color-primary-700);
+  cursor: not-allowed;
+}
+
+.c1:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.c1:disabled {
+  color: var(--color-accent-disabled);
+  background-color: var(--color-accent-hover);
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+<div>
+  <button
+    class="c0 c1"
+    color="primary"
+    data-testid="button"
+    disabled=""
+  >
+    <span
+      class="c2"
+    >
+      Click me
+    </span>
+  </button>
+</div>
+`;

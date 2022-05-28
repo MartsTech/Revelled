@@ -1,7 +1,4 @@
-using System;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
     public class BuggyController : BaseApiController
     {

@@ -1,17 +1,13 @@
-using Domain;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace Persistence
+﻿namespace Persistence
 {
-    public class DataContext : IdentityDbContext<AppUser>
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
         }
 
-        public DbSet<Activity> Activities { get; set; }
-        public DbSet<ActivityAttendee> ActivityAttendees { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventAttendee> EventAttendees { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserFollowing> UserFollowings { get; set; }
@@ -20,37 +16,39 @@ namespace Persistence
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ActivityAttendee>(x => x.HasKey(aa => new { aa.AppUserId, aa.ActivityId }));
+            builder.Entity<EventAttendee>(b =>
+            {
+                b.HasKey(a => new { a.UserId, a.EventId });
 
-            builder.Entity<ActivityAttendee>()
-                .HasOne(u => u.AppUser)
-                .WithMany(a => a.Activities)
-                .HasForeignKey(aa => aa.AppUserId);
+                b.HasOne(u => u.User)
+                    .WithMany(e => e.Events)
+                    .HasForeignKey(a => a.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<ActivityAttendee>()
-                .HasOne(u => u.Activity)
-                .WithMany(a => a.Attendees)
-                .HasForeignKey(aa => aa.ActivityId);
+                b.HasOne(e => e.Event)
+                    .WithMany(a => a.Attendees)
+                    .HasForeignKey(a => a.EventId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             builder.Entity<Comment>()
-                .HasOne(a => a.Activity)
+                .HasOne(e => e.Event)
                 .WithMany(c => c.Comments)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<UserFollowing>(b =>
             {
-                b.HasKey(k => new { k.ObserverId, k.TargetId });
+                b.HasKey(f => new { f.ObserverId, f.TargetId });
 
                 b.HasOne(o => o.Observer)
                     .WithMany(f => f.Followings)
                     .HasForeignKey(o => o.ObserverId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasOne(o => o.Target)
+                b.HasOne(t => t.Target)
                     .WithMany(f => f.Followers)
-                    .HasForeignKey(o => o.TargetId)
+                    .HasForeignKey(t => t.TargetId)
                     .OnDelete(DeleteBehavior.Cascade);
-
             });
         }
     }
